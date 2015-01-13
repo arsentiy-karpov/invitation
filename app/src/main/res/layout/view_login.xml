@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#dfffffff">
+
+    <ImageView
+            android:id="@+id/login_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="matrix"
+            android:adjustViewBounds="true"/>
+
+    <LinearLayout
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView android:text="@string/login_help"
+                  android:layout_marginLeft="72dp"
+                  android:layout_marginRight="72dp"
+                  android:layout_marginBottom="18dp"
+                  android:textColor="#000000"
+                  style="@android:style/TextAppearance.Small"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="72dp"
+                android:layout_marginRight="72dp"/>
+
+        <Button
+                android:id="@+id/login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="92dp"
+                android:layout_marginRight="92dp"
+                android:text="Нырнуть"/>
+
+    </LinearLayout>
+
+    <TextView android:text="@string/login_help_wrong"
+              android:layout_alignParentBottom="true"
+              android:layout_marginLeft="12dp"
+              android:layout_marginRight="12dp"
+              android:layout_marginBottom="18dp"
+              style="@android:style/TextAppearance.Small"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+</RelativeLayout>
