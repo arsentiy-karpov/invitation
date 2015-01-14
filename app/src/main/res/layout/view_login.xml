@@ -27,6 +27,7 @@
                   android:layout_height="wrap_content"/>
 
         <EditText
+                android:id="@+id/code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="72dp"
@@ -42,12 +43,4 @@
 
     </LinearLayout>
 
-    <TextView android:text="@string/login_help_wrong"
-              android:layout_alignParentBottom="true"
-              android:layout_marginLeft="12dp"
-              android:layout_marginRight="12dp"
-              android:layout_marginBottom="18dp"
-              style="@android:style/TextAppearance.Small"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"/>
 </RelativeLayout>

@@ -45,6 +45,7 @@ public class Main extends ActionBarActivity
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
@@ -64,6 +65,10 @@ public class Main extends ActionBarActivity
                 OverlappingScreen.class.getName()) == null) {
             OverlappingScreen.newInstance(new LoginScreenGenerator()).show(getSupportFragmentManager());
         }
+    }
+
+    public void showGuestContent() {
+        mViewPager.getAdapter().notifyDataSetChanged();
     }
 
     @Override

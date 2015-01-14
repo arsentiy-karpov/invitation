@@ -53,7 +53,7 @@ public class OverlappingScreen extends Fragment {
         if (mAttachedView == null) {
             mAttachedView = new ClosingLayout(getActivity());
         }
-        mAttachedView.addView(mInformationScreenGenerator.getView(getActivity(), this));
+        mAttachedView.addView(mInformationScreenGenerator.getView(this));
         ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE))
                 .addView(mAttachedView, layoutParams);
         AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
@@ -125,7 +125,6 @@ public class OverlappingScreen extends Fragment {
 
     public static interface InformationScreenGenerator extends Serializable {
 
-        public View getView(Context context,
-                OverlappingScreen overlappingInformationScreen);
+        public View getView(OverlappingScreen overlappingInformationScreen);
     }
 }
