@@ -4,12 +4,12 @@
                 android:layout_height="match_parent"
                 android:background="#dfffffff">
 
-    <ImageView
-            android:id="@+id/login_background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="matrix"
-            android:adjustViewBounds="true"/>
+    <!--<ImageView-->
+            <!--android:id="@+id/login_background"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:scaleType="matrix"-->
+            <!--android:adjustViewBounds="true"/>-->
 
     <LinearLayout
             android:layout_centerInParent="true"

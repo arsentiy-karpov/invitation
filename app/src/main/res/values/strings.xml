@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">А...</string>
+    <string name="app_name">Приглашение</string>
     <string name="title_section1">Зачем?</string>
     <string name="title_section2">Куда?</string>
     <string name="title_section3">Может...</string>

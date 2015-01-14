@@ -22,9 +22,9 @@ public class LoginScreenGenerator implements OverlappingScreen.InformationScreen
                 overlappingInformationScreen.detach();
             }
         });
-        Drawable background = context.getResources().getDrawable(R.drawable.login_background);
-        background.setAlpha(80);
-        ((ImageView)v.findViewById(R.id.login_background)).setBackgroundDrawable(background);
+//        Drawable background = context.getResources().getDrawable(R.drawable.login_background);
+//        background.setAlpha(80);
+//        ((ImageView)v.findViewById(R.id.login_background)).setBackgroundDrawable(background);
         return v;
     }
 
