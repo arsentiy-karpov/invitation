@@ -1,6 +1,9 @@
 package wedding.karpov.invitation;
 
 import android.app.Activity;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -19,15 +22,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import wedding.karpov.invitation.fragments.MapFragment;
+import wedding.karpov.invitation.fragments.WhereFragment;
+import wedding.karpov.invitation.fragments.WhoFragment;
+import wedding.karpov.invitation.widget.SlidingTabLayout;
+
 
 public class Main extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-
-    private CharSequence mTitle;
-
     private Toolbar mToolbar;
+
+    private SlidingTabLayout mSlidingTabLayout;
+
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +47,14 @@ public class Main extends ActionBarActivity
             setSupportActionBar(mToolbar);
         }
 
-//        mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.navigation_drawer);
-//        mTitle = getTitle();
-//
-//        // Set up the drawer.
-//        mNavigationDrawerFragment
-//                .setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+        // Get the ViewPager and set it's PagerAdapter so that it can display items
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mViewPager.setAdapter(new SamplePagerAdapter(getSupportFragmentManager()));
+
+        // Give the SlidingTabLayout the ViewPager, this must be done AFTER the ViewPager has had
+        // it's PagerAdapter set.
+        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
+        mSlidingTabLayout.setViewPager(mViewPager);
     }
 
     @Override
@@ -53,52 +62,13 @@ public class Main extends ActionBarActivity
         super.onStart();
         if (getSupportFragmentManager().findFragmentByTag(
                 OverlappingScreen.class.getName()) == null) {
-            mTitle = "Приглашение";
             OverlappingScreen.newInstance(new LoginScreenGenerator()).show(getSupportFragmentManager());
         }
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-//        // update the main content by replacing fragments
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1)).commit();
-    }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-        }
-    }
-
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-//        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-//            // Only show items in the action bar relevant to this screen
-//            // if the drawer is not showing. Otherwise, let the drawer
-//            // decide what to show in the action bar.
-//            getMenuInflater().inflate(R.menu.main, menu);
-//            restoreActionBar();
-//            return true;
-//        }
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -116,44 +86,43 @@ public class Main extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
+    class SamplePagerAdapter extends FragmentPagerAdapter {
 
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
+        public SamplePagerAdapter(FragmentManager fm) {
+            super(fm);
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "Кто";
+                case 1:
+                    return "Где";
+                case 2:
+                    return "Карта";
+            }
+            return "";
         }
 
         @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((Main) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new WhoFragment();
+                case 1:
+                    return new WhereFragment();
+                case 2:
+                    return new MapFragment();
+            }
+            return null;
         }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
     }
 
 }
