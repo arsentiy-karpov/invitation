@@ -1,11 +1,8 @@
 package wedding.karpov.invitation;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import wedding.karpov.invitation.guests.Guest;
@@ -30,7 +27,7 @@ public class LoginScreenGenerator implements OverlappingScreen.InformationScreen
                 if (guest != null) {
                     ((InvitationApplication) (overlappingInformationScreen.getActivity()
                             .getApplication())).setGuest(guest);
-                    ((Main)overlappingInformationScreen.getActivity()).showGuestContent();
+                    ((Main)overlappingInformationScreen.getActivity()).updateGuestContent();
                     overlappingInformationScreen.detach();
                 } else {
                     Toast.makeText(overlappingInformationScreen.getActivity(),

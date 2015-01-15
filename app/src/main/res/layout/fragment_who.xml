@@ -13,6 +13,10 @@
                                         cardview:cardMaxElevation="1dp"
                                         android:background="#ffffff"
                                         android:layout_margin="12dp">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
         <TextView
                   android:id="@+id/welcome_text"
@@ -25,6 +29,15 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"/>
 
+        </LinearLayout>
     </android.support.v7.widget.CardView>
+
+    <Button
+            android:id="@+id/accept_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Принять конечно!"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"/>
 
 </LinearLayout>

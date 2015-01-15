@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import wedding.karpov.invitation.InvitationApplication;
+import wedding.karpov.invitation.Main;
 import wedding.karpov.invitation.R;
 
 /**
@@ -17,7 +19,15 @@ public class WhereFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_where, container, false);
+        View v = inflater.inflate(R.layout.fragment_where, container, false);
+        v.findViewById(R.id.exit_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((InvitationApplication)getActivity().getApplication()).setGuest(null);
+                ((Main)getActivity()).showLoginFragment();
+            }
+        });
+        return v;
     }
 
 }

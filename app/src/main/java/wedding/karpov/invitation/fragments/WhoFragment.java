@@ -24,12 +24,25 @@ public class WhoFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
+        updateWelcomeText();
+        updateAcceptButton();
+    }
+
+    public void updateWelcomeText() {
         if (((InvitationApplication) getActivity().getApplication()).getGuest() != null) {
             ((TextView) getView().findViewById(R.id.welcome_text)).setText(
                     ((InvitationApplication) getActivity().getApplication()).getGuest()
                             .getWelcomeText());
+        }
+    }
+
+    public void updateAcceptButton() {
+        if (((InvitationApplication) getActivity().getApplication()).getGuest() != null) {
+            getView().findViewById(R.id.accept_btn).setVisibility(View.VISIBLE);
+        } else {
+            getView().findViewById(R.id.accept_btn).setVisibility(View.GONE);
         }
     }
 }
