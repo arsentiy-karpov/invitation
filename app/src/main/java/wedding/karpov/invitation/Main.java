@@ -120,10 +120,6 @@ public class Main extends ActionBarActivity
 
     class SamplePagerAdapter extends FragmentPagerAdapter {
 
-        private GoogleMap mMap;
-
-        private SupportMapFragment mSupportMapFragment;
-
         public SamplePagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -149,18 +145,9 @@ public class Main extends ActionBarActivity
                 case 1:
                     return new WhereFragment();
                 case 2:
-                    if (mSupportMapFragment == null) {
-                        mSupportMapFragment = SupportMapFragment.newInstance();
-                    }
-                    return mSupportMapFragment;
+                    return new wedding.karpov.invitation.fragments.MapFragment();
             }
             return null;
-        }
-
-        @Override
-        public void finishUpdate(ViewGroup container) {
-            super.finishUpdate(container);
-            setUpMapIfNeeded();
         }
 
         @Override
@@ -168,29 +155,6 @@ public class Main extends ActionBarActivity
             return 3;
         }
 
-//        @Override
-//        public int getItemPosition(Object object) {
-//            return POSITION_NONE;
-//        }
-
-        private void setUpMapIfNeeded() {
-            // Do a null check to confirm that we have not already instantiated the map.
-            if (mMap == null && mSupportMapFragment != null) {
-                // Try to obtain the map from the SupportMapFragment.
-                mMap = mSupportMapFragment.getMap();
-                // Check if we were successful in obtaining the map.
-                if (mMap != null) {
-                    setUpMap();
-                }
-            }
-        }
-
-        private void setUpMap() {
-            mMap.addMarker(new MarkerOptions().position(new LatLng(55.0848989, 38.7748349)).title(
-                    "Party hard!"));
-            mMap.animateCamera(CameraUpdateFactory
-                    .newLatLngZoom(new LatLng(55.0848989, 38.7748349), 18.0f));
-        }
     }
 
 }
