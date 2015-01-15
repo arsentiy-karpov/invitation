@@ -1,13 +1,8 @@
 package wedding.karpov.invitation;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
+import android.animation.ValueAnimator;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.app.ActionBarActivity;
@@ -15,13 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-
-import java.util.Objects;
-import java.util.zip.GZIPOutputStream;
+import android.widget.Toast;
 
 import wedding.karpov.invitation.fragments.WhereFragment;
 import wedding.karpov.invitation.fragments.WhoFragment;
@@ -36,6 +27,8 @@ public class Main extends ActionBarActivity
     private SlidingTabLayout mSlidingTabLayout;
 
     private ViewPager mViewPager;
+
+    private int mLogoInitialHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +48,52 @@ public class Main extends ActionBarActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
+        MenuItem item = menu.add(0, R.id.action_example, 1, R.string.action_example)
+                .setIcon(R.drawable.ic_cake_white_24dp);
+        MenuItemCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_example) {
+            Toast.makeText(this, "Допольнительное инфо будет тут", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void animateLogoExpand() {
+        final View v = findViewById(R.id.toolbar_image);
+        mLogoInitialHeight = v.getMeasuredHeight();
+        ValueAnimator va = ValueAnimator
+                .ofInt(v.getHeight(), findViewById(R.id.drawer_layout).getHeight());
+        va.setDuration(400);
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer value = (Integer) animation.getAnimatedValue();
+                v.getLayoutParams().height = value.intValue();
+                v.requestLayout();
+            }
+        });
+        va.start();
+    }
+
+    public void animateLogoCollapse() {
+        final View v = findViewById(R.id.toolbar_image);
+        ValueAnimator va = ValueAnimator
+                .ofInt(v.getHeight(), mLogoInitialHeight);
+        va.setDuration(400);
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer value = (Integer) animation.getAnimatedValue();
+                v.getLayoutParams().height = value.intValue();
+                v.requestLayout();
+            }
+        });
+        va.start();
     }
 
     @Override
@@ -67,10 +103,10 @@ public class Main extends ActionBarActivity
     }
 
     public void showLoginFragment() {
-        if (getSupportFragmentManager().findFragmentByTag(
-                OverlappingScreen.class.getName()) == null
+        if (getSupportFragmentManager().findFragmentByTag(OverlappingScreen.class.getName()) == null
                 && ((InvitationApplication) getApplication()).getGuest() == null) {
             hideViewPager();
+//            animateLogoExpand();
             OverlappingScreen.newInstance(new LoginScreenGenerator())
                     .show(getSupportFragmentManager());
         }
@@ -79,6 +115,7 @@ public class Main extends ActionBarActivity
     public void updateGuestContent() {
         showViewPager();
         mViewPager.getAdapter().notifyDataSetChanged();
+//        animateLogoCollapse();
     }
 
     public void hideViewPager() {
@@ -98,24 +135,10 @@ public class Main extends ActionBarActivity
         mSlidingTabLayout.setViewPager(mViewPager);
     }
 
+
     @Override
     public void onNavigationDrawerItemSelected(int position) {
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     class SamplePagerAdapter extends FragmentPagerAdapter {
@@ -135,6 +158,11 @@ public class Main extends ActionBarActivity
                     return "Карта";
             }
             return "";
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
         @Override

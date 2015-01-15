@@ -4,6 +4,6 @@
       tools:context=".Main">
     <item android:id="@+id/action_example"
           android:title="@string/action_example"
-          android:icon="@android:drawable/ic_dialog_info"
+          android:icon="@drawable/ic_cake_white_24dp"
           app:showAsAction="always"/>
 </menu>
