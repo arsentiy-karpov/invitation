@@ -12,7 +12,7 @@ public class GuestFactory {
 
     public static Guest getGuestByCode(String code, Context context) {
         switch (code) {
-            case "123":
+            case "":
                 return new UshakovaGuest(context);
         }
         return null;

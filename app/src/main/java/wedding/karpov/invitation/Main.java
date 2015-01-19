@@ -1,5 +1,6 @@
 package wedding.karpov.invitation;
 
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
@@ -9,9 +10,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import wedding.karpov.invitation.fragments.WhereFragment;
@@ -28,7 +32,9 @@ public class Main extends ActionBarActivity
 
     private ViewPager mViewPager;
 
-    private int mLogoInitialHeight;
+    private ImageView mLogo;
+
+    private View mContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +47,13 @@ public class Main extends ActionBarActivity
             getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         }
-
+        mLogo = (ImageView) findViewById(R.id.toolbar_image);
+        mContainer = findViewById(R.id.container);
         setViewPager();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
         MenuItem item = menu.add(0, R.id.action_example, 1, R.string.action_example)
                 .setIcon(R.drawable.ic_cake_white_24dp);
         MenuItemCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
@@ -65,48 +71,52 @@ public class Main extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public void animateLogoExpand() {
-        final View v = findViewById(R.id.toolbar_image);
-        mLogoInitialHeight = v.getMeasuredHeight();
-        ValueAnimator va = ValueAnimator
-                .ofInt(v.getHeight(), findViewById(R.id.drawer_layout).getHeight());
-        va.setDuration(400);
-        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Integer value = (Integer) animation.getAnimatedValue();
-                v.getLayoutParams().height = value.intValue();
-                v.requestLayout();
+
+    private void moveUp() {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int heightPixels = displayMetrics.heightPixels;
+        ValueAnimator a = ObjectAnimator
+                .ofFloat(mContainer.getTranslationY(), mContainer.getTranslationY() - heightPixels / 1.5f);
+        a.setDuration(400);
+        a.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                mContainer.setTranslationY((Float) valueAnimator.getAnimatedValue());
             }
         });
-        va.start();
+        a.start();
     }
 
-    public void animateLogoCollapse() {
-        final View v = findViewById(R.id.toolbar_image);
-        ValueAnimator va = ValueAnimator
-                .ofInt(v.getHeight(), mLogoInitialHeight);
-        va.setDuration(400);
-        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Integer value = (Integer) animation.getAnimatedValue();
-                v.getLayoutParams().height = value.intValue();
-                v.requestLayout();
+    private void moveDown() {
+        ValueAnimator a = ObjectAnimator
+                .ofFloat(mContainer.getTranslationY(), 0);
+        a.setDuration(400);
+        a.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                mContainer.setTranslationY((Float) valueAnimator.getAnimatedValue());
             }
         });
-        va.start();
+        a.start();
     }
 
     @Override
     protected void onStart() {
-        showLoginFragment();
         super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showLoginFragment();
+
     }
 
     public void showLoginFragment() {
         if (getSupportFragmentManager().findFragmentByTag(OverlappingScreen.class.getName()) == null
                 && ((InvitationApplication) getApplication()).getGuest() == null) {
             hideViewPager();
-//            animateLogoExpand();
+            moveDown();
             OverlappingScreen.newInstance(new LoginScreenGenerator())
                     .show(getSupportFragmentManager());
         }
@@ -115,7 +125,7 @@ public class Main extends ActionBarActivity
     public void updateGuestContent() {
         showViewPager();
         mViewPager.getAdapter().notifyDataSetChanged();
-//        animateLogoCollapse();
+        moveUp();
     }
 
     public void hideViewPager() {
