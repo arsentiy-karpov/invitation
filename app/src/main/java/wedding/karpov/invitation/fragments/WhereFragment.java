@@ -20,13 +20,6 @@ public class WhereFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_where, container, false);
-        v.findViewById(R.id.exit_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((InvitationApplication)getActivity().getApplication()).setGuest(null);
-                ((Main)getActivity()).showLoginFragment();
-            }
-        });
         return v;
     }
 

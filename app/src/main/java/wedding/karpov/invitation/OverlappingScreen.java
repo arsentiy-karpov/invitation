@@ -3,6 +3,7 @@ package wedding.karpov.invitation;
 /**
  * Created by arsenitykarpov on 12/01/15.
  */
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.PixelFormat;
@@ -58,10 +59,12 @@ public class OverlappingScreen extends Fragment {
                 .addView(mAttachedView, layoutParams);
         AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
         alphaAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
-        alphaAnimation.setDuration(300);
+        alphaAnimation.setDuration(1000);
         mAttachedView.getChildAt(0).startAnimation(alphaAnimation);
         super.onStart();
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,

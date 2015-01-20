@@ -27,7 +27,6 @@ public class WhoFragment extends Fragment {
     public void onStart() {
         super.onStart();
         updateWelcomeText();
-        updateAcceptButton();
     }
 
     public void updateWelcomeText() {
@@ -38,11 +37,4 @@ public class WhoFragment extends Fragment {
         }
     }
 
-    public void updateAcceptButton() {
-        if (((InvitationApplication) getActivity().getApplication()).getGuest() != null) {
-            getView().findViewById(R.id.accept_btn).setVisibility(View.VISIBLE);
-        } else {
-            getView().findViewById(R.id.accept_btn).setVisibility(View.GONE);
-        }
-    }
 }

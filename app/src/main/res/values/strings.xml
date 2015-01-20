@@ -12,6 +12,8 @@
     <string name="login_help">Если Вы установили это приложение -- скорее всего с ним было получено
         и кодовое слово:
     </string>
+    <string name="login_title">Ключ:
+    </string>
     <string name="login_help_wrong">*В противном случае тут делать нечего</string>
     <string name="welcome_text_ushakova">If the layouts that you design according to the material
         design guidelines do not use any of the new XML attributes introduced in Android 5.0 (API
