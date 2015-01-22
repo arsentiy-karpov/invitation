@@ -3,4 +3,6 @@
     <color name="primary">#F94CA8</color>
     <color name="primary_dark">#FA6DC3</color>
     <color name="accent">#FA6DC3</color>
+    <color name="title_color">#000000</color>
+    <color name="guest_name_color">#547EAD</color>
 </resources>

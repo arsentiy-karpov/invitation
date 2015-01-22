@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,27 +55,52 @@ public class OverlappingScreen extends Fragment {
         if (mAttachedView == null) {
             mAttachedView = new ClosingLayout(getActivity());
         }
+        if (mInformationScreenGenerator != null) {
         mAttachedView.addView(mInformationScreenGenerator.getView(this));
+        }
         ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE))
                 .addView(mAttachedView, layoutParams);
         AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
         alphaAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
         alphaAnimation.setDuration(1000);
-        mAttachedView.getChildAt(0).startAnimation(alphaAnimation);
+        if (mAttachedView.getChildAt(0) != null) {
+            mAttachedView.getChildAt(0).startAnimation(alphaAnimation);
+        }
         super.onStart();
     }
 
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null && savedInstanceState.getSerializable("screen") != null
+                && mInformationScreenGenerator == null) {
+            mInformationScreenGenerator = (InformationScreenGenerator) savedInstanceState
+                    .getSerializable("screen");
+        }
+        super.onViewStateRestored(savedInstanceState);
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable("screen", mInformationScreenGenerator);
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            if (savedInstanceState != null && savedInstanceState.getSerializable("screen") != null
+                    && mInformationScreenGenerator == null) {
+                mInformationScreenGenerator = (InformationScreenGenerator) savedInstanceState
+                        .getSerializable("screen");
+            }
+        }
         return null;
     }
 
     public void show(FragmentManager fragmentManager) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(this, OverlappingScreen.class.getName());
+        fragmentTransaction.add(this, "login_screen");
         fragmentTransaction.commitAllowingStateLoss();
     }
 

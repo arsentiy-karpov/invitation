@@ -2,6 +2,8 @@ package wedding.karpov.invitation;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -10,6 +12,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
+import android.text.style.TypefaceSpan;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,14 +29,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import wedding.karpov.invitation.fragments.MapFragment;
+import wedding.karpov.invitation.fragments.QuestionFragment;
 import wedding.karpov.invitation.fragments.WhereFragment;
 import wedding.karpov.invitation.fragments.WhoFragment;
+import wedding.karpov.invitation.objects.CustomTypefaceSpan;
 import wedding.karpov.invitation.widget.ExtendedLinearLayout;
 import wedding.karpov.invitation.widget.SlidingTabLayout;
 
 
-public class Main extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class Main extends ActionBarActivity {
 
     private Toolbar mToolbar;
 
@@ -47,10 +57,29 @@ public class Main extends ActionBarActivity
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            SpannableString builder = new SpannableString("Пригласительный");
+            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(
+                    getResources().getColor(
+                            R.color.title_color));
+            StyleSpan styleSpan = new StyleSpan(Typeface.NORMAL);
+            Typeface font = Typeface.createFromAsset(getAssets(), "Lora/Lora-Bold.ttf");
+            Typeface font2 = Typeface
+                    .createFromAsset(getAssets(), "Marck_Script/MarckScript-Regular.ttf");
+            Typeface font3 = Typeface
+                    .createFromAsset(getAssets(), "Neucha/Neucha.ttf");
+            Typeface font4 = Typeface
+                    .createFromAsset(getAssets(), "Ruslan_Display/RuslanDisplay.ttf");
+            Typeface font5 = Typeface
+                    .createFromAsset(getAssets(), "Seymour_One/SeymourOne-Regular.ttf");
+            CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", font2);
+            builder.setSpan(styleSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
+            builder.setSpan(foregroundColorSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
+            builder.setSpan(typefaceSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
+//            builder.setSpan(new RelativeSizeSpan(1.2f), 0, builder.length(),
+//                    Spanned.SPAN_COMPOSING);
 
+            getSupportActionBar().setTitle(builder);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
         mLogo = (ImageView) findViewById(R.id.toolbar_image);
         mContainer = (ExtendedLinearLayout) findViewById(R.id.container);
@@ -60,9 +89,9 @@ public class Main extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuItem item = menu.add(0, R.id.action_example, 1, R.string.action_example)
-//                .setIcon(R.drawable.ic_cake_black_24dp);
-//        MenuItemCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        MenuItem item = menu.add(0, R.id.action_example, 1, R.string.action_example)
+                .setIcon(R.drawable.ic_cake_black_24dp);
+        MenuItemCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -70,11 +99,11 @@ public class Main extends ActionBarActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_example) {
-            Toast.makeText(this, "Допольнительное инфо будет тут", Toast.LENGTH_SHORT).show();
-            return true;
+            ((InvitationApplication) getApplication()).setGuest(null);
+            showLoginFragment();
         }
         if (id == android.R.id.home) {
-            ((InvitationApplication)getApplication()).setGuest(null);
+            ((InvitationApplication) getApplication()).setGuest(null);
             showLoginFragment();
         }
 
@@ -82,14 +111,18 @@ public class Main extends ActionBarActivity
     }
 
     public void showLoginFragment() {
-        if (getSupportFragmentManager().findFragmentByTag(OverlappingScreen.class.getName()) == null
-                && ((InvitationApplication) getApplication()).getGuest() == null) {
-            mToolbar.setVisibility(View.GONE);
-            moveDown();
+        if (((InvitationApplication) getApplication()).getGuest() == null &&
+                getSupportFragmentManager().findFragmentByTag("login_screen")
+                        == null) {
+            if (mToolbar != null) {
+                mToolbar.setVisibility(View.GONE);
+                moveDown();
+            }
             OverlappingScreen.newInstance(new LoginScreenGenerator())
                     .show(getSupportFragmentManager());
         }
     }
+
 
     public void updateGuestContent() {
         mToolbar.setVisibility(View.VISIBLE);
@@ -133,12 +166,6 @@ public class Main extends ActionBarActivity
         showLoginFragment();
     }
 
-
-    @Override
-    public void onNavigationDrawerItemSelected(int position) {
-
-    }
-
     class SamplePagerAdapter extends FragmentPagerAdapter {
 
         public SamplePagerAdapter(FragmentManager fm) {
@@ -149,11 +176,13 @@ public class Main extends ActionBarActivity
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Кто";
+                    return "Что?";
                 case 1:
-                    return "Где";
+                    return "Где?";
                 case 2:
                     return "Карта";
+                case 3:
+                    return "Вопрос...";
             }
             return "";
         }
@@ -172,13 +201,15 @@ public class Main extends ActionBarActivity
                     return new WhereFragment();
                 case 2:
                     return new wedding.karpov.invitation.fragments.MapFragment();
+                case 3:
+                    return new QuestionFragment();
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
 
     }

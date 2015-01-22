@@ -15,11 +15,16 @@
     <string name="login_title">Ключ:
     </string>
     <string name="login_help_wrong">*В противном случае тут делать нечего</string>
-    <string name="welcome_text_ushakova">If the layouts that you design according to the material
-        design guidelines do not use any of the new XML attributes introduced in Android 5.0 (API
-        level 21), they will work on previous versions of Android. Otherwise, you can provide
-        alternative layouts. You can also provide alternative layouts to customize how your app
-        looks on earlier versions of Android.
+    <string name="welcome_text_ushakova">Если ты получил это приглашение - то знай, что пара
+        отчаянных оптимистов очень желает видеть тебя на своей свадьбе 14 февраля 2015 года в
+        чудесном городе Коломна и приглашает принять участие в увлекательной рок-н-ролл вечеринке
+        под названием "Властелины колец".\n\nТеплая атмосфера, круг добрых друзей, звуки приятной
+        музыки и море алкашки пробудят тебя от унылого зимнего сна!\n\nЗаранее благодарим тебя и
+        знаем, что этот радостный день ты разделишь с нами!
+        \n\n\n\n\n\n\n\n\n
+    </string>
+    <string name="where_text">Место встречи: Коломна, ул Ленина, 83\nВремя: 17.00
     </string>
     <string name="login_wrong_code">Увы и Ах!</string>
+    <string name="login_screen">login</string>
 </resources>

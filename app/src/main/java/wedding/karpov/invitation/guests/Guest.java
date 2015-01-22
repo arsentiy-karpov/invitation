@@ -7,6 +7,9 @@ public interface Guest {
 
     String getName();
 
-    String getWelcomeText();
+    CharSequence getWelcomeText();
 
+    void approve(AbstarctGuest.OnApproveListener listener);
+
+    boolean isApproved();
 }

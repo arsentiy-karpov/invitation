@@ -85,10 +85,10 @@ public class MapFragment extends Fragment {
             getMap().addMarker(new MarkerOptions().position(new LatLng(55.0848989, 38.7748349))
                     .title("Party hard!"));
             CameraUpdate cameraUpdate1 = CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(55.0848989, 38.7748349), 14.0f);
-            getMap().moveCamera(cameraUpdate1);
-            CameraUpdate cameraUpdate2 = CameraUpdateFactory.scrollBy(0, -100);
-            getMap().animateCamera(cameraUpdate2);
+                    new LatLng(55.0848989, 38.7748349), 15.0f);
+            getMap().animateCamera(cameraUpdate1);
+//            CameraUpdate cameraUpdate2 = CameraUpdateFactory.scrollBy(0, -1000);
+//            getMap().animateCamera(cameraUpdate2);
         }
     }
 }

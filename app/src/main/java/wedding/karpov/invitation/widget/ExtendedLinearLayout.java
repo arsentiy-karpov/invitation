@@ -28,7 +28,7 @@ public class ExtendedLinearLayout extends LinearLayout {
     }
 
     private int getDesiredHeight() {
-        return Math.round(mDisplayHeight * 1.71f);
+        return Math.round(mDisplayHeight * 1.73f);
     }
 
     @Override

@@ -41,8 +41,9 @@
         <android.support.v7.widget.Toolbar
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/toolbar"
-                android:background="#3fffffff"
+                android:visibility="gone"
+                android:background="#a3ffffff"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"/>
+                android:layout_height="wrap_content"/>
     </RelativeLayout>
 </LinearLayout>

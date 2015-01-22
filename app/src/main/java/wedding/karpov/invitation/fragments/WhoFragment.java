@@ -1,5 +1,7 @@
 package wedding.karpov.invitation.fragments;
 
+import com.parse.ParseObject;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import wedding.karpov.invitation.InvitationApplication;
 import wedding.karpov.invitation.R;
+import wedding.karpov.invitation.guests.AbstarctGuest;
 
 /**
  * Created by akarpov on 1/14/15.
@@ -20,7 +23,33 @@ public class WhoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_who, container, false);
-        return inflater.inflate(R.layout.fragment_who, container, false);
+        v.findViewById(R.id.accept_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((InvitationApplication) getActivity().getApplication()).getGuest()
+                        .approve(new AbstarctGuest.OnApproveListener() {
+                            @Override
+                            public void onApprove() {
+                                ParseObject testObject = new ParseObject("Guests");
+                                testObject.put("name", "Jenya");
+                                testObject.put("is_approved", true);
+                                testObject.put("answer", "Пошел на хуй!");
+                                testObject.saveInBackground();
+                            }
+                        });
+            }
+        });
+        return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (((InvitationApplication) getActivity().getApplication()).getGuest() != null) {
+            getView().findViewById(R.id.accept_btn).setVisibility(
+                    ((InvitationApplication) getActivity().getApplication()).getGuest().isApproved()
+                            ? View.GONE : View.VISIBLE);
+        }
     }
 
     @Override
