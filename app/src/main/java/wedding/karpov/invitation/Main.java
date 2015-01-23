@@ -141,7 +141,7 @@ public class Main extends ActionBarActivity {
         ValueAnimator a = ObjectAnimator
                 .ofFloat(mContainer, "translationY", mContainer.getTranslationY(),
                         mContainer.getTranslationY()
-                                - getResources().getDisplayMetrics().heightPixels * 2f / 2.8f);
+                                - getResources().getDisplayMetrics().heightPixels * 2f / 2.7f);
         a.setDuration(1000);
         a.setInterpolator(new OvershootInterpolator(2f));
         a.start();
