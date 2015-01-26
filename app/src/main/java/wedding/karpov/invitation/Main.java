@@ -59,14 +59,12 @@ public class Main extends ActionBarActivity {
             setSupportActionBar(mToolbar);
             SpannableString builder = new SpannableString("Пригласительный");
             ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(
-                    getResources().getColor(
-                            R.color.title_color));
+                    getResources().getColor(R.color.title_color));
             StyleSpan styleSpan = new StyleSpan(Typeface.NORMAL);
             Typeface font = Typeface.createFromAsset(getAssets(), "Lora/Lora-Bold.ttf");
             Typeface font2 = Typeface
                     .createFromAsset(getAssets(), "Marck_Script/MarckScript-Regular.ttf");
-            Typeface font3 = Typeface
-                    .createFromAsset(getAssets(), "Neucha/Neucha.ttf");
+            Typeface font3 = Typeface.createFromAsset(getAssets(), "Neucha/Neucha.ttf");
             Typeface font4 = Typeface
                     .createFromAsset(getAssets(), "Ruslan_Display/RuslanDisplay.ttf");
             Typeface font5 = Typeface
@@ -89,8 +87,10 @@ public class Main extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem item = menu.add(0, R.id.action_example, 1, R.string.action_example)
-                .setIcon(R.drawable.ic_cake_black_24dp);
+        MenuItem item = menu.add(0, R.id.action_example, 1, getString(R.string.action_example) + (
+                        ((InvitationApplication) getApplication()).getGuest() != null
+                                ? ((InvitationApplication) getApplication()).getGuest().getName()
+                                : "")).setIcon(R.drawable.ic_cake_black_24dp);
         MenuItemCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return super.onCreateOptionsMenu(menu);
     }
@@ -111,15 +111,17 @@ public class Main extends ActionBarActivity {
     }
 
     public void showLoginFragment() {
-        if (((InvitationApplication) getApplication()).getGuest() == null &&
-                getSupportFragmentManager().findFragmentByTag("login_screen")
-                        == null) {
-            if (mToolbar != null) {
-                mToolbar.setVisibility(View.GONE);
-                moveDown();
+        if (((InvitationApplication) getApplication()).getGuest() == null) {
+            if (getSupportFragmentManager().findFragmentByTag("login_screen") == null) {
+                if (mToolbar != null) {
+                    mToolbar.setVisibility(View.GONE);
+                    moveDown();
+                }
+                OverlappingScreen.newInstance(new LoginScreenGenerator())
+                        .show(getSupportFragmentManager());
             }
-            OverlappingScreen.newInstance(new LoginScreenGenerator())
-                    .show(getSupportFragmentManager());
+        } else {
+            updateGuestContent();
         }
     }
 
@@ -141,15 +143,14 @@ public class Main extends ActionBarActivity {
         ValueAnimator a = ObjectAnimator
                 .ofFloat(mContainer, "translationY", mContainer.getTranslationY(),
                         mContainer.getTranslationY()
-                                - getResources().getDisplayMetrics().heightPixels * 2f / 2.7f);
+                                - getResources().getDisplayMetrics().heightPixels * 2f / 3f);
         a.setDuration(1000);
         a.setInterpolator(new OvershootInterpolator(2f));
         a.start();
     }
 
     private void moveDown() {
-        ValueAnimator a = ObjectAnimator
-                .ofFloat(mContainer.getTranslationY(), 0);
+        ValueAnimator a = ObjectAnimator.ofFloat(mContainer.getTranslationY(), 0);
         a.setDuration(700);
         a.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override

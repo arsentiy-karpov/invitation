@@ -30,11 +30,7 @@ public class WhoFragment extends Fragment {
                         .approve(new AbstarctGuest.OnApproveListener() {
                             @Override
                             public void onApprove() {
-                                ParseObject testObject = new ParseObject("Guests");
-                                testObject.put("name", "Jenya");
-                                testObject.put("is_approved", true);
-                                testObject.put("answer", "Пошел на хуй!");
-                                testObject.saveInBackground();
+
                             }
                         });
             }
