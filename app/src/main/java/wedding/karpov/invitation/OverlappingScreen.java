@@ -143,13 +143,6 @@ public class OverlappingScreen extends Fragment {
             super(context, attrs, defStyleAttr, defStyleRes);
         }
 
-        @Override
-        public boolean dispatchKeyEvent(KeyEvent event) {
-            if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-                OverlappingScreen.this.detach();
-            }
-            return super.dispatchKeyEvent(event);
-        }
     }
 
     public static interface InformationScreenGenerator extends Serializable {

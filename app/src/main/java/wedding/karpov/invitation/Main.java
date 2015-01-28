@@ -2,7 +2,6 @@ package wedding.karpov.invitation;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
@@ -13,22 +12,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
-import android.text.style.TypefaceSpan;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import wedding.karpov.invitation.fragments.MapFragment;
 import wedding.karpov.invitation.fragments.QuestionFragment;
 import wedding.karpov.invitation.fragments.WhereFragment;
 import wedding.karpov.invitation.fragments.WhoFragment;
@@ -49,6 +41,8 @@ public class Main extends ActionBarActivity {
 
     private ExtendedLinearLayout mContainer;
 
+    private boolean mIsMovedDown = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +51,7 @@ public class Main extends ActionBarActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
-            SpannableString builder = new SpannableString("Пригласительный");
+            SpannableString builder = new SpannableString("Приглашение");
             ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(
                     getResources().getColor(R.color.title_color));
             StyleSpan styleSpan = new StyleSpan(Typeface.NORMAL);
@@ -82,15 +76,19 @@ public class Main extends ActionBarActivity {
         mLogo = (ImageView) findViewById(R.id.toolbar_image);
         mContainer = (ExtendedLinearLayout) findViewById(R.id.container);
         mContainer.setDisplayHeight(getResources().getDisplayMetrics().heightPixels);
+        if (savedInstanceState != null && savedInstanceState.getFloat("tY", -666f) != -666f) {
+            mContainer.setTranslationY(savedInstanceState.getFloat("tY"));
+        }
         setViewPager();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem item = menu.add(0, R.id.action_example, 1, getString(R.string.action_example) + (
-                        ((InvitationApplication) getApplication()).getGuest() != null
-                                ? ((InvitationApplication) getApplication()).getGuest().getName()
-                                : "")).setIcon(R.drawable.ic_cake_black_24dp);
+        MenuItem item = menu.add(0, R.id.action_example, 1, (
+                ((InvitationApplication) getApplication()).getGuest() != null
+                        ? getString(R.string.action_example)
+                        + ((InvitationApplication) getApplication()).getGuest().getName()
+                        : "")).setIcon(R.drawable.ic_cake_black_24dp);
         MenuItemCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return super.onCreateOptionsMenu(menu);
     }
@@ -125,6 +123,19 @@ public class Main extends ActionBarActivity {
         }
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState.getFloat("tY", -666f) != -666f) {
+            mContainer.setTranslationY(savedInstanceState.getFloat("tY"));
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putFloat("tY", mContainer.getTranslationY());
+        super.onSaveInstanceState(outState);
+    }
 
     public void updateGuestContent() {
         mToolbar.setVisibility(View.VISIBLE);
@@ -139,26 +150,36 @@ public class Main extends ActionBarActivity {
         mSlidingTabLayout.setViewPager(mViewPager);
     }
 
+    private boolean isMovedDown() {
+        return mIsMovedDown;
+    }
+
     private void moveUp() {
-        ValueAnimator a = ObjectAnimator
-                .ofFloat(mContainer, "translationY", mContainer.getTranslationY(),
-                        mContainer.getTranslationY()
-                                - getResources().getDisplayMetrics().heightPixels * 2f / 3f);
-        a.setDuration(1000);
-        a.setInterpolator(new OvershootInterpolator(2f));
-        a.start();
+        if (isMovedDown()) {
+            ValueAnimator a = ObjectAnimator
+                    .ofFloat(mContainer, "translationY", mContainer.getTranslationY(),
+                            mContainer.getTranslationY()
+                                    - getResources().getDisplayMetrics().heightPixels * 2f / 2.85f);
+            a.setDuration(700);
+            a.setInterpolator(new OvershootInterpolator(1.6f));
+            a.start();
+            mIsMovedDown = false;
+        }
     }
 
     private void moveDown() {
-        ValueAnimator a = ObjectAnimator.ofFloat(mContainer.getTranslationY(), 0);
-        a.setDuration(700);
-        a.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                mContainer.setTranslationY((Float) valueAnimator.getAnimatedValue());
-            }
-        });
-        a.start();
+        if (!isMovedDown()) {
+            ValueAnimator a = ObjectAnimator.ofFloat(mContainer.getTranslationY(), 0);
+            a.setDuration(700);
+            a.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    mContainer.setTranslationY((Float) valueAnimator.getAnimatedValue());
+                }
+            });
+            a.start();
+            mIsMovedDown = true;
+        }
     }
 
     @Override
