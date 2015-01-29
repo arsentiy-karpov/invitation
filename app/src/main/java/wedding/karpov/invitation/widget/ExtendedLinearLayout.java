@@ -9,13 +9,11 @@ import android.widget.LinearLayout;
  */
 public class ExtendedLinearLayout extends LinearLayout {
 
-    int mDisplayHeight;
-
     BackImageView mImageView;
 
     int mParentMeasuredHeight = -1;
 
-    public static final float EXTENDED_HEIGHT_KOEFF = 2f/2.7f;
+    public static final float EXTENDED_HEIGHT_KOEFF = 2f / 2.7f;
 
     public ExtendedLinearLayout(Context context) {
         super(context);
@@ -29,12 +27,9 @@ public class ExtendedLinearLayout extends LinearLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    public void setDisplayHeight(int displayHeight) {
-        mDisplayHeight = displayHeight;
-    }
-
     public int getDesiredHeight() {
-        return Math.round(getParentMeasuredHeight() + getParentMeasuredHeight() * EXTENDED_HEIGHT_KOEFF);
+        return Math.round(getParentMeasuredHeight()
+                + getParentMeasuredHeight() * EXTENDED_HEIGHT_KOEFF);
     }
 
     public void setImageView(BackImageView imageView) {

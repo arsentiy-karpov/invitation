@@ -76,7 +76,6 @@ public class Main extends ActionBarActivity {
         }
         mBackImage = (BackImageView) findViewById(R.id.toolbar_image);
         mContainer = (ExtendedLinearLayout) findViewById(R.id.container);
-        mContainer.setDisplayHeight(getWindowHeight());
         mContainer.setImageView(mBackImage);
         setViewPager();
     }
@@ -107,13 +106,6 @@ public class Main extends ActionBarActivity {
         return getResources().getDisplayMetrics().heightPixels;
     }
 
-    private int getVisibleWindowHeight() {
-        return getWindowHeight() - getNavigationBarHeight();
-    }
-
-    private int getVisibleWindowTop() {
-        return getNavigationBarHeight();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
