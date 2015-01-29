@@ -2,7 +2,6 @@ package wedding.karpov.invitation;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
@@ -13,26 +12,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
-import android.text.style.TypefaceSpan;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.ViewConfiguration;
+import android.view.animation.AnticipateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import wedding.karpov.invitation.fragments.MapFragment;
 import wedding.karpov.invitation.fragments.QuestionFragment;
 import wedding.karpov.invitation.fragments.WhereFragment;
 import wedding.karpov.invitation.fragments.WhoFragment;
 import wedding.karpov.invitation.objects.CustomTypefaceSpan;
+import wedding.karpov.invitation.widget.BackImageView;
 import wedding.karpov.invitation.widget.ExtendedLinearLayout;
 import wedding.karpov.invitation.widget.SlidingTabLayout;
 
@@ -45,7 +40,7 @@ public class Main extends ActionBarActivity {
 
     private ViewPager mViewPager;
 
-    private ImageView mLogo;
+    private BackImageView mBackImage;
 
     private ExtendedLinearLayout mContainer;
 
@@ -79,18 +74,53 @@ public class Main extends ActionBarActivity {
             getSupportActionBar().setTitle(builder);
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
-        mLogo = (ImageView) findViewById(R.id.toolbar_image);
+        mBackImage = (BackImageView) findViewById(R.id.toolbar_image);
         mContainer = (ExtendedLinearLayout) findViewById(R.id.container);
-        mContainer.setDisplayHeight(getResources().getDisplayMetrics().heightPixels);
+        mContainer.setDisplayHeight(getWindowHeight());
+        mContainer.setImageView(mBackImage);
         setViewPager();
+    }
+
+    private int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    private int getNavigationBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        if (ViewConfiguration.get(this).hasPermanentMenuKey()) {
+            return 0;
+        } else {
+            return result;
+        }
+    }
+
+    private int getWindowHeight() {
+        return getResources().getDisplayMetrics().heightPixels;
+    }
+
+    private int getVisibleWindowHeight() {
+        return getWindowHeight() - getNavigationBarHeight();
+    }
+
+    private int getVisibleWindowTop() {
+        return getNavigationBarHeight();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuItem item = menu.add(0, R.id.action_example, 1, getString(R.string.action_example) + (
-                        ((InvitationApplication) getApplication()).getGuest() != null
-                                ? ((InvitationApplication) getApplication()).getGuest().getName()
-                                : "")).setIcon(R.drawable.ic_cake_black_24dp);
+                ((InvitationApplication) getApplication()).getGuest() != null
+                        ? ((InvitationApplication) getApplication()).getGuest().getName() : ""))
+                .setIcon(R.drawable.ic_cake_black_24dp);
         MenuItemCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return super.onCreateOptionsMenu(menu);
     }
@@ -142,22 +172,18 @@ public class Main extends ActionBarActivity {
     private void moveUp() {
         ValueAnimator a = ObjectAnimator
                 .ofFloat(mContainer, "translationY", mContainer.getTranslationY(),
-                        mContainer.getTranslationY()
-                                - getResources().getDisplayMetrics().heightPixels * 2f / 3f);
+                        mContainer.getTranslationY() - mContainer.getParentMeasuredHeight()
+                                * ExtendedLinearLayout.EXTENDED_HEIGHT_KOEFF);
         a.setDuration(1000);
-        a.setInterpolator(new OvershootInterpolator(2f));
+        a.setInterpolator(new AnticipateInterpolator(2f));
         a.start();
     }
 
     private void moveDown() {
-        ValueAnimator a = ObjectAnimator.ofFloat(mContainer.getTranslationY(), 0);
-        a.setDuration(700);
-        a.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                mContainer.setTranslationY((Float) valueAnimator.getAnimatedValue());
-            }
-        });
+        ValueAnimator a = ObjectAnimator
+                .ofFloat(mContainer, "translationY", mContainer.getTranslationY(), 0);
+        a.setDuration(1000);
+        a.setInterpolator(new DecelerateInterpolator(2f));
         a.start();
     }
 
