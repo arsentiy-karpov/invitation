@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewTreeObserver;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -44,6 +45,8 @@ public class Main extends ActionBarActivity {
     private ViewPager mViewPager;
 
     private BackImageView mBackImage;
+
+    private boolean mIsAlreadyGlobalLayout = false;
 
     private ExtendedLinearLayout mContainer;
 
@@ -82,38 +85,12 @@ public class Main extends ActionBarActivity {
         mBackImage = (BackImageView) findViewById(R.id.toolbar_image);
         mContainer = (ExtendedLinearLayout) findViewById(R.id.container);
         mContainer.setImageView(mBackImage);
+        mContainer.invalidate();
         if (savedInstanceState != null && savedInstanceState.getFloat("tY", -666f) != -666f) {
             mContainer.setTranslationY(savedInstanceState.getFloat("tY"));
         }
         setViewPager();
     }
-
-    private int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
-
-    private int getNavigationBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        if (ViewConfiguration.get(this).hasPermanentMenuKey()) {
-            return 0;
-        } else {
-            return result;
-        }
-    }
-
-    private int getWindowHeight() {
-        return getResources().getDisplayMetrics().heightPixels;
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -219,7 +196,16 @@ public class Main extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        showLoginFragment();
+        mContainer.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        if (!mIsAlreadyGlobalLayout) {
+                            showLoginFragment();
+                            mIsAlreadyGlobalLayout = true;
+                        }
+                    }
+                });
     }
 
 //    @Override
