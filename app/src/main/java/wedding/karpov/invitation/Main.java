@@ -3,14 +3,13 @@ package wedding.karpov.invitation;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Typeface;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -19,15 +18,11 @@ import android.text.style.StyleSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.OvershootInterpolator;
 
-import wedding.karpov.invitation.fragments.ConcreteQuestionFragment;
-import wedding.karpov.invitation.fragments.QuestionCategoriesFragment;
-import wedding.karpov.invitation.fragments.QuestionFragment;
+import wedding.karpov.invitation.fragments.QuestionContainerFragment;
 import wedding.karpov.invitation.fragments.WhereFragment;
 import wedding.karpov.invitation.fragments.WhoFragment;
 import wedding.karpov.invitation.objects.CustomTypefaceSpan;
@@ -43,6 +38,8 @@ public class Main extends ActionBarActivity {
     private SlidingTabLayout mSlidingTabLayout;
 
     private ViewPager mViewPager;
+
+    private SamplePagerAdapter mViewPagerAdapter;
 
     private BackImageView mBackImage;
 
@@ -155,7 +152,10 @@ public class Main extends ActionBarActivity {
 
     public void setViewPager() {
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        mViewPager.setAdapter(new SamplePagerAdapter(getSupportFragmentManager()));
+        if (mViewPagerAdapter == null) {
+            mViewPagerAdapter = new SamplePagerAdapter(getFragmentManager());
+        }
+        mViewPager.setAdapter(mViewPagerAdapter);
         mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setViewPager(mViewPager);
     }
@@ -212,24 +212,19 @@ public class Main extends ActionBarActivity {
 //    public void onBackPressed() {
 //
 //        // We retrieve the fragment manager of the activity
-//        FragmentManager frgmtManager = getSupportFragmentManager();
-//
+//        FragmentManager frgmtManager = getFragmentManager();
+//        FragmentManager childFragmentManager = null;
 //        // We retrieve the fragment container showed right now
 //        // The viewpager assigns tags to fragment automatically like this
 //        // mPager is our ViewPager instance
 //        int id = mViewPager.getId();
 //        int currentItem = mViewPager.getCurrentItem();
-//        Fragment fragment = frgmtManager.findFragmentByTag(
-//                "android:switcher:" + mViewPager.getId() + ":" + mViewPager.getCurrentItem());
-//        FragmentManager childFragmentManager = null;
-//        // And thanks to the fragment container, we retrieve its child fragment manager
-//        // holding our fragment in the back stack
-//        if (fragment != null) {
+//
+//        Fragment fragment = mViewPagerAdapter.getItem(currentItem);
+//        if (fragment instanceof QuestionContainerFragment) {
 //            childFragmentManager = fragment.getChildFragmentManager();
 //        }
 //
-//        // And here we go, if the back stack is empty, we let the back button doing its job
-//        // Otherwise, we show the last entry in the back stack (our FragmentToShow)
 //        if (childFragmentManager != null && childFragmentManager.getBackStackEntryCount() == 0) {
 //            super.onBackPressed();
 //        } else {
@@ -237,7 +232,7 @@ public class Main extends ActionBarActivity {
 //        }
 //    }
 
-    class SamplePagerAdapter extends FragmentStatePagerAdapter {
+    class SamplePagerAdapter extends FragmentPagerAdapter {
 
         FragmentManager mFragmentManager;
 
@@ -291,7 +286,7 @@ public class Main extends ActionBarActivity {
 //                                });
 //
 //                    }
-                    mQuestionFragment = new QuestionCategoriesFragment();
+                    mQuestionFragment = new QuestionContainerFragment();
                     return mQuestionFragment;
             }
             return null;
