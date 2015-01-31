@@ -1,7 +1,5 @@
 package wedding.karpov.invitation.fragments;
 
-import com.parse.ParseObject;
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,29 +21,7 @@ public class WhoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_who, container, false);
-        v.findViewById(R.id.accept_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((InvitationApplication) getActivity().getApplication()).getGuest()
-                        .approve(new AbstarctGuest.OnApproveListener() {
-                            @Override
-                            public void onApprove() {
-
-                            }
-                        });
-            }
-        });
         return v;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (((InvitationApplication) getActivity().getApplication()).getGuest() != null) {
-            getView().findViewById(R.id.accept_btn).setVisibility(
-                    ((InvitationApplication) getActivity().getApplication()).getGuest().isApproved()
-                            ? View.GONE : View.VISIBLE);
-        }
     }
 
     @Override

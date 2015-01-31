@@ -3,6 +3,7 @@ package wedding.karpov.invitation.guests.helpers;
 import android.content.Context;
 
 import wedding.karpov.invitation.guests.Guest;
+import wedding.karpov.invitation.guests.ShapiroGuest;
 import wedding.karpov.invitation.guests.UshakovaGuest;
 
 /**
@@ -14,6 +15,8 @@ public class GuestFactory {
         switch (code) {
             case "":
                 return new UshakovaGuest(context);
+            case "shap":
+                return new ShapiroGuest(context);
         }
         return null;
     }

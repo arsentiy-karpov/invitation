@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +24,8 @@ import android.view.animation.AnticipateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
+import wedding.karpov.invitation.fragments.ConcreteQuestionFragment;
+import wedding.karpov.invitation.fragments.QuestionCategoriesFragment;
 import wedding.karpov.invitation.fragments.QuestionFragment;
 import wedding.karpov.invitation.fragments.WhereFragment;
 import wedding.karpov.invitation.fragments.WhoFragment;
@@ -44,6 +47,8 @@ public class Main extends ActionBarActivity {
 
     private ExtendedLinearLayout mContainer;
 
+    private boolean mIsMovedDown = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +57,7 @@ public class Main extends ActionBarActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
-            SpannableString builder = new SpannableString("Пригласительный");
+            SpannableString builder = new SpannableString("Приглашение");
             ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(
                     getResources().getColor(R.color.title_color));
             StyleSpan styleSpan = new StyleSpan(Typeface.NORMAL);
@@ -77,6 +82,9 @@ public class Main extends ActionBarActivity {
         mBackImage = (BackImageView) findViewById(R.id.toolbar_image);
         mContainer = (ExtendedLinearLayout) findViewById(R.id.container);
         mContainer.setImageView(mBackImage);
+        if (savedInstanceState != null && savedInstanceState.getFloat("tY", -666f) != -666f) {
+            mContainer.setTranslationY(savedInstanceState.getFloat("tY"));
+        }
         setViewPager();
     }
 
@@ -109,10 +117,11 @@ public class Main extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem item = menu.add(0, R.id.action_example, 1, getString(R.string.action_example) + (
-                ((InvitationApplication) getApplication()).getGuest() != null
-                        ? ((InvitationApplication) getApplication()).getGuest().getName() : ""))
-                .setIcon(R.drawable.ic_cake_black_24dp);
+        MenuItem item = menu.add(0, R.id.action_example, 1,
+                (((InvitationApplication) getApplication()).getGuest() != null ?
+                        getString(R.string.action_example)
+                                + ((InvitationApplication) getApplication()).getGuest().getName()
+                        : "")).setIcon(R.drawable.ic_cake_black_24dp);
         MenuItemCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return super.onCreateOptionsMenu(menu);
     }
@@ -147,6 +156,19 @@ public class Main extends ActionBarActivity {
         }
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState.getFloat("tY", -666f) != -666f) {
+            mContainer.setTranslationY(savedInstanceState.getFloat("tY"));
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putFloat("tY", mContainer.getTranslationY());
+        super.onSaveInstanceState(outState);
+    }
 
     public void updateGuestContent() {
         mToolbar.setVisibility(View.VISIBLE);
@@ -161,22 +183,37 @@ public class Main extends ActionBarActivity {
         mSlidingTabLayout.setViewPager(mViewPager);
     }
 
+    private boolean isMovedDown() {
+        return mIsMovedDown;
+    }
+
     private void moveUp() {
-        ValueAnimator a = ObjectAnimator
-                .ofFloat(mContainer, "translationY", mContainer.getTranslationY(),
-                        mContainer.getTranslationY() - mContainer.getParentMeasuredHeight()
-                                * ExtendedLinearLayout.EXTENDED_HEIGHT_KOEFF);
-        a.setDuration(1000);
-        a.setInterpolator(new AnticipateInterpolator(2f));
-        a.start();
+        if (isMovedDown()) {
+            ValueAnimator a = ObjectAnimator
+                    .ofFloat(mContainer, "translationY", mContainer.getTranslationY(),
+                            mContainer.getTranslationY() - mContainer.getParentMeasuredHeight()
+                                    * ExtendedLinearLayout.EXTENDED_HEIGHT_KOEFF);
+            a.setDuration(1000);
+            a.setInterpolator(new AnticipateInterpolator(2f));
+            a.start();
+            mIsMovedDown = false;
+        }
     }
 
     private void moveDown() {
-        ValueAnimator a = ObjectAnimator
-                .ofFloat(mContainer, "translationY", mContainer.getTranslationY(), 0);
-        a.setDuration(1000);
-        a.setInterpolator(new DecelerateInterpolator(2f));
-        a.start();
+        if (!isMovedDown()) {
+            ValueAnimator a = ObjectAnimator.ofFloat(mContainer.getTranslationY(), 0);
+            a.setDuration(700);
+            a.setInterpolator(new DecelerateInterpolator(2f));
+            a.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    mContainer.setTranslationY((Float) valueAnimator.getAnimatedValue());
+                }
+            });
+            a.start();
+            mIsMovedDown = true;
+        }
     }
 
     @Override
@@ -185,10 +222,44 @@ public class Main extends ActionBarActivity {
         showLoginFragment();
     }
 
-    class SamplePagerAdapter extends FragmentPagerAdapter {
+//    @Override
+//    public void onBackPressed() {
+//
+//        // We retrieve the fragment manager of the activity
+//        FragmentManager frgmtManager = getSupportFragmentManager();
+//
+//        // We retrieve the fragment container showed right now
+//        // The viewpager assigns tags to fragment automatically like this
+//        // mPager is our ViewPager instance
+//        int id = mViewPager.getId();
+//        int currentItem = mViewPager.getCurrentItem();
+//        Fragment fragment = frgmtManager.findFragmentByTag(
+//                "android:switcher:" + mViewPager.getId() + ":" + mViewPager.getCurrentItem());
+//        FragmentManager childFragmentManager = null;
+//        // And thanks to the fragment container, we retrieve its child fragment manager
+//        // holding our fragment in the back stack
+//        if (fragment != null) {
+//            childFragmentManager = fragment.getChildFragmentManager();
+//        }
+//
+//        // And here we go, if the back stack is empty, we let the back button doing its job
+//        // Otherwise, we show the last entry in the back stack (our FragmentToShow)
+//        if (childFragmentManager != null && childFragmentManager.getBackStackEntryCount() == 0) {
+//            super.onBackPressed();
+//        } else {
+//            childFragmentManager.popBackStack();
+//        }
+//    }
+
+    class SamplePagerAdapter extends FragmentStatePagerAdapter {
+
+        FragmentManager mFragmentManager;
+
+        Fragment mQuestionFragment;
 
         public SamplePagerAdapter(FragmentManager fm) {
             super(fm);
+            mFragmentManager = fm;
         }
 
         @Override
@@ -221,7 +292,21 @@ public class Main extends ActionBarActivity {
                 case 2:
                     return new wedding.karpov.invitation.fragments.MapFragment();
                 case 3:
-                    return new QuestionFragment();
+//                    if (mQuestionFragment == null) {
+//                        mQuestionFragment = QuestionFragment
+//                                .newInstance(new QuestionFragment.SwitchFragmentListener() {
+//                                    @Override
+//                                    public void onSwitchToConcreteQuestionFragment() {
+//                                        mFragmentManager.beginTransaction().addToBackStack(null)
+//                                                .remove(mQuestionFragment).commit();
+//                                        mQuestionFragment = new ConcreteQuestionFragment();
+//                                        notifyDataSetChanged();
+//                                    }
+//                                });
+//
+//                    }
+                    mQuestionFragment = new QuestionCategoriesFragment();
+                    return mQuestionFragment;
             }
             return null;
         }
