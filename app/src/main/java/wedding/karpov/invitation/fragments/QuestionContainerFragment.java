@@ -24,19 +24,5 @@ public class QuestionContainerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getChildFragmentManager().executePendingTransactions();
-        getChildFragmentManager().beginTransaction()
-                .addToBackStack(QuestionCategoryFragment.class.getName()).replace(R.id.container,
-                QuestionCategoryFragment
-                        .newInstance(new QuestionCategoryFragment.SwitchFragmentListener() {
-                            @Override
-                            public void onSwitchToConcreteQuestionFragment() {
-                                getChildFragmentManager().beginTransaction()
-                                        .addToBackStack(ConcreteQuestionFragment.class.getName())
-                                        .replace(R.id.container,
-                                                ConcreteQuestionFragment.newInstane())
-                                        .commitAllowingStateLoss();
-                            }
-                        })).commitAllowingStateLoss();
     }
 }

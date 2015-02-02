@@ -13,20 +13,11 @@
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:orientation="vertical">
-        <EditText android:id="@+id/answer_field"
+        <TextView android:id="@+id/answer_field"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:inputType="textMultiLine"
-                  android:lines="3"
-                  android:minLines="1"
-                  android:hint="Сколько надо Евреев, чтобы закрутить лампочку?"
-                  android:scrollbars="vertical"/>
-        <Button
-                android:id="@+id/accept_btn"
-                android:layout_weight="0"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="отправить"
-                style="@style/ButtonBorderless"/>
+                  android:text="@string/app_update_info"/>
+        <!--<ImageView android:layout_width="100dp" android:layout_height="100dp"-->
+                   <!--android:scaleType="fitXY" android:src="@drawable/boobs_toolbar"/>-->
     </LinearLayout>
 </android.support.v7.widget.CardView>

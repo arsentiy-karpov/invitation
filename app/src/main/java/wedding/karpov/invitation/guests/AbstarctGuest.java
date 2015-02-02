@@ -32,7 +32,6 @@ public abstract class AbstarctGuest implements Guest {
         SpannableStringBuilder text = SpannableStringBuilder.valueOf(getStylingName());
         text.append("\n\n");
         text.append(getStylingWelcomeText());
-        text.append("\n");
         text.append(getStylingSignature());
         return text;
     }
@@ -102,7 +101,6 @@ public abstract class AbstarctGuest implements Guest {
     }
 
     public static interface OnApproveListener {
-
         void onApprove();
     }
 

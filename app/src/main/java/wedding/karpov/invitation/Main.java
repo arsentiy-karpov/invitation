@@ -22,6 +22,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
+import wedding.karpov.invitation.fragments.QuestionCategoryFragment;
 import wedding.karpov.invitation.fragments.QuestionContainerFragment;
 import wedding.karpov.invitation.fragments.WhereFragment;
 import wedding.karpov.invitation.fragments.WhoFragment;
@@ -253,7 +254,7 @@ public class Main extends ActionBarActivity {
                 case 2:
                     return "Карта";
                 case 3:
-                    return "Вопрос...";
+                    return "Вопрос";
             }
             return "";
         }
@@ -273,20 +274,7 @@ public class Main extends ActionBarActivity {
                 case 2:
                     return new wedding.karpov.invitation.fragments.MapFragment();
                 case 3:
-//                    if (mQuestionFragment == null) {
-//                        mQuestionFragment = QuestionFragment
-//                                .newInstance(new QuestionFragment.SwitchFragmentListener() {
-//                                    @Override
-//                                    public void onSwitchToConcreteQuestionFragment() {
-//                                        mFragmentManager.beginTransaction().addToBackStack(null)
-//                                                .remove(mQuestionFragment).commit();
-//                                        mQuestionFragment = new ConcreteQuestionFragment();
-//                                        notifyDataSetChanged();
-//                                    }
-//                                });
-//
-//                    }
-                    mQuestionFragment = new QuestionContainerFragment();
+                    mQuestionFragment = QuestionCategoryFragment.newInstance();
                     return mQuestionFragment;
             }
             return null;

@@ -1,5 +1,7 @@
 package wedding.karpov.invitation.viewholders;
 
+import com.parse.ParseObject;
+
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;

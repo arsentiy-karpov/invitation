@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.Calendar;
+import java.util.Random;
 import java.util.TimeZone;
 
 import wedding.karpov.invitation.InvitationApplication;
@@ -29,16 +30,9 @@ public class QuestionCategoryFragment extends Fragment {
 
     private QuestionsAdapter mAdapter;
 
-    private static SwitchFragmentListener mListener;
 
-    public interface SwitchFragmentListener
-    {
-        void onSwitchToConcreteQuestionFragment();
-    }
-
-    public static QuestionCategoryFragment newInstance(SwitchFragmentListener listener) {
+    public static QuestionCategoryFragment newInstance() {
         QuestionCategoryFragment fragment = new QuestionCategoryFragment();
-        mListener = listener;
         return fragment;
     }
 
@@ -46,12 +40,6 @@ public class QuestionCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_question, container, false);
-        view.findViewById(R.id.accept_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onSwitchToConcreteQuestionFragment();
-            }
-        });
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         initAdapter();
@@ -60,34 +48,48 @@ public class QuestionCategoryFragment extends Fragment {
 
     private void initAdapter() {
         if (mAdapter == null) {
-            QuestionsAdapter questionsAdapter = new QuestionsAdapter();
-            questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд?"));
-            questionsAdapter.addItem(new Question().setQuestionString("Русские и тд?"));
-            questionsAdapter.addItem(new Question().setQuestionString("Корейцы и тд?"));
-            questionsAdapter.addItem(new Question().setQuestionString("Словаки и тд?"));
-            questionsAdapter.addItem(new Question().setQuestionString("Поляки и тд?"));
-            questionsAdapter.addItem(new Question().setQuestionString("Негры и тд?"));
+            Random random = new Random();
+            int q1 = random.nextInt(5);
+            int q2 = random.nextInt(5);
+
+            QuestionsAdapter questionsAdapter = new QuestionsAdapter(getActivity());
+
+            switch (q1) {
+                case 0:
+                    questionsAdapter.addItem(new Question().setQuestionString("Вопрос о нас 1?"));
+                    break;
+                case 1:
+                    questionsAdapter.addItem(new Question().setQuestionString("Вопрос о нас 2?"));
+                    break;
+                case 2:
+                    questionsAdapter.addItem(new Question().setQuestionString("Вопрос о нас 3?"));
+                    break;
+                case 3:
+                    questionsAdapter.addItem(new Question().setQuestionString("Вопрос о нас 4?"));
+                    break;
+                case 4:
+                    questionsAdapter.addItem(new Question().setQuestionString("Вопрос о нас 5?"));
+                    break;
+            }
+
+            switch (q2) {
+                case 0:
+                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 1?"));
+                    break;
+                case 1:
+                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 2?"));
+                    break;
+                case 2:
+                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 3?"));
+                    break;
+                case 3:
+                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 4?"));
+                    break;
+                case 4:
+                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 5?"));
+                    break;
+            }
             mRecyclerView.setAdapter(questionsAdapter);
         }
-    }
-
-    private void answer() {
-        ParseObject guestAnswerObject = new ParseObject("Guests");
-        for (int i = 0; i < mRecyclerView.getAdapter().getItemCount(); i++) {
-            guestAnswerObject.add("name",
-                    ((InvitationApplication) getActivity().getApplication()).getGuest()
-                            .getName());
-            RecyclerView.ViewHolder viewHolder = mRecyclerView.findViewHolderForPosition(i);
-            if (viewHolder.getItemViewType() == QuestionViewHolder.QUESTION_VIEW_TYPE) {
-                ((QuestionViewHolder) viewHolder).answer();
-                guestAnswerObject
-                        .add("answer", ((QuestionViewHolder) viewHolder).getQuestion().getAnswer());
-                guestAnswerObject.add("question",
-                        ((QuestionViewHolder) viewHolder).getQuestion().getQuestionString());
-                guestAnswerObject
-                        .add("create", Calendar.getInstance(TimeZone.getDefault()).getTime());
-            }
-        }
-        guestAnswerObject.saveEventually();
     }
 }
