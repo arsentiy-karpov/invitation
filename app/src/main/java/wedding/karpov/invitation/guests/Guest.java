@@ -5,7 +5,19 @@ package wedding.karpov.invitation.guests;
  */
 public interface Guest {
 
+    public static enum GuestType {
+        FRIEND,RELATIVE
+    }
+
+    public static enum GuestGender {
+        M,F
+    }
+
     String getName();
+
+    GuestType getType();
+
+    GuestGender getGender();
 
     CharSequence getWelcomeText();
 

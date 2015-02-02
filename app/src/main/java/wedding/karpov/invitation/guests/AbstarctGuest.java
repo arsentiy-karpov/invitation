@@ -30,33 +30,43 @@ public abstract class AbstarctGuest implements Guest {
     @Override
     public CharSequence getWelcomeText() {
         SpannableStringBuilder text = SpannableStringBuilder.valueOf(getStylingName());
-        text.append("\n");
+        text.append("\n\n");
         text.append(getStylingWelcomeText());
+        text.append("\n");
+        text.append(getStylingSignature());
         return text;
     }
 
-    protected CharSequence getStylingName() {
-        SpannableString builder = new SpannableString(getName() + "!");
+    protected CharSequence getStylingSignature() {
+        SpannableString builder = new SpannableString("Арсентий и Евгения!");
         ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(
                 mContext.getResources().getColor(
                         R.color.guest_name_color));
         StyleSpan styleSpan = new StyleSpan(Typeface.NORMAL);
-        Typeface font = Typeface.createFromAsset(mContext.getAssets(), "Lora/Lora-Bold.ttf");
-        Typeface font2 = Typeface
-                .createFromAsset(mContext.getAssets(), "Marck_Script/MarckScript-Regular.ttf");
-        Typeface font3 = Typeface
-                .createFromAsset(mContext.getAssets(), "Neucha/Neucha.ttf");
-        Typeface font4 = Typeface
-                .createFromAsset(mContext.getAssets(), "Ruslan_Display/RuslanDisplay.ttf");
-        Typeface font5 = Typeface
-                .createFromAsset(mContext.getAssets(), "Seymour_One/SeymourOne-Regular.ttf");
-        CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", font2);
         builder.setSpan(styleSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
         builder.setSpan(foregroundColorSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
-//        builder.setSpan(typefaceSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
-        builder.setSpan(new RelativeSizeSpan(1.8f), 0, builder.length(),
+        builder.setSpan(new RelativeSizeSpan(1.3f), 0, builder.length(),
                 Spanned.SPAN_COMPOSING);
         return builder;
+    }
+
+    protected CharSequence getStylingName() {
+        SpannableString builder = new SpannableString(getPrefix() + " " + getName() + "!");
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(
+                mContext.getResources().getColor(
+                        R.color.guest_name_color));
+        StyleSpan styleSpan = new StyleSpan(Typeface.NORMAL);
+        builder.setSpan(styleSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
+        builder.setSpan(foregroundColorSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
+        builder.setSpan(new RelativeSizeSpan(1.3f), 0, builder.length(),
+                Spanned.SPAN_COMPOSING);
+        return builder;
+    }
+
+    private CharSequence getPrefix() {
+        return GuestType.FRIEND == getType() ? (GuestGender.M == getGender() ? "Достопочтенный"
+                : "Достопочтенная")
+                : (GuestGender.M == getGender() ? "Дорогой" : "Дорогая");
     }
 
     protected CharSequence getStylingWelcomeText() {
@@ -66,20 +76,12 @@ public abstract class AbstarctGuest implements Guest {
                         R.color.guest_name_color));
         StyleSpan styleSpan = new StyleSpan(Typeface.NORMAL);
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "Lora/Lora-Bold.ttf");
-        Typeface font2 = Typeface
-                .createFromAsset(mContext.getAssets(), "Marck_Script/MarckScript-Regular.ttf");
-        Typeface font3 = Typeface
-                .createFromAsset(mContext.getAssets(), "Neucha/Neucha.ttf");
-        Typeface font4 = Typeface
-                .createFromAsset(mContext.getAssets(), "Ruslan_Display/RuslanDisplay.ttf");
-        Typeface font5 = Typeface
-                .createFromAsset(mContext.getAssets(), "Seymour_One/SeymourOne-Regular.ttf");
         CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", font);
         builder.setSpan(styleSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
 //        builder.setSpan(foregroundColorSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
 //        builder.setSpan(typefaceSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
-//        builder.setSpan(new RelativeSizeSpan(f), 0, builder.length(),
-//                Spanned.SPAN_COMPOSING);
+        builder.setSpan(new RelativeSizeSpan(1.2f), 0, builder.length(),
+                Spanned.SPAN_COMPOSING);
         return builder;
     }
 
@@ -89,14 +91,18 @@ public abstract class AbstarctGuest implements Guest {
         listener.onApprove();
     }
 
+    protected int getResourceId() {
+        return GuestType.FRIEND == getType() ? R.string.welcome_text_friends
+                : R.string.welcome_text_relatives;
+    }
+
     @Override
     public boolean isApproved() {
         return mIsApproved;
     }
 
-    protected abstract int getResourceId();
-
     public static interface OnApproveListener {
+
         void onApprove();
     }
 

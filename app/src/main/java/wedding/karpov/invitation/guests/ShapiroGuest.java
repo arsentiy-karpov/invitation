@@ -19,7 +19,13 @@ public class ShapiroGuest extends AbstarctGuest {
     }
 
     @Override
-    protected int getResourceId() {
-        return R.string.welcome_text_ushakova;
+    public GuestType getType() {
+        return GuestType.RELATIVE;
     }
+
+    @Override
+    public GuestGender getGender() {
+        return GuestGender.M;
+    }
+
 }
