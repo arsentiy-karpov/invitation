@@ -64,8 +64,6 @@ public class WhereFragment extends Fragment{
                         R.color.guest_name_color));
         SpannableStringBuilder builder = new SpannableStringBuilder(getString(R.string.where_text));
         builder.setSpan(foregroundColorSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
-        builder.setSpan(new RelativeSizeSpan(1.3f), 0, builder.length(),
-                Spanned.SPAN_COMPOSING);
         return builder;
     }
 
@@ -75,23 +73,15 @@ public class WhereFragment extends Fragment{
                 getResources().getColor(
                         R.color.guest_name_color));
         StyleSpan styleSpan = new StyleSpan(Typeface.NORMAL);
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "Lora/Lora-Bold.ttf");
-        Typeface font2 = Typeface
-                .createFromAsset(getActivity().getAssets(), "Marck_Script/MarckScript-Regular.ttf");
         Typeface font3 = Typeface
                 .createFromAsset(getActivity().getAssets(), "Neucha/Neucha.ttf");
-        Typeface font4 = Typeface
-                .createFromAsset(getActivity().getAssets(), "Ruslan_Display/RuslanDisplay.ttf");
-        Typeface font5 = Typeface
-                .createFromAsset(getActivity().getAssets(), "Seymour_One/SeymourOne-Regular.ttf");
-
         CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", font3);
         builder.setSpan(styleSpan, 0, 1, Spanned.SPAN_COMPOSING);
         builder.setSpan(foregroundColorSpan, 0, 1, Spanned.SPAN_COMPOSING);
         builder.setSpan(typefaceSpan, 0, 1, Spanned.SPAN_COMPOSING);
         builder.setSpan(new RelativeSizeSpan(1.8f), 0, 1,
                 Spanned.SPAN_COMPOSING);
-        builder.setSpan(new RelativeSizeSpan(1.3f), 1, builder.length(),
+        builder.setSpan(new RelativeSizeSpan(1.2f), 1, builder.length(),
                 Spanned.SPAN_COMPOSING);
         return builder;
     }

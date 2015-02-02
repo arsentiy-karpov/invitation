@@ -74,11 +74,7 @@ public abstract class AbstarctGuest implements Guest {
                 mContext.getResources().getColor(
                         R.color.guest_name_color));
         StyleSpan styleSpan = new StyleSpan(Typeface.NORMAL);
-        Typeface font = Typeface.createFromAsset(mContext.getAssets(), "Lora/Lora-Bold.ttf");
-        CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", font);
         builder.setSpan(styleSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
-//        builder.setSpan(foregroundColorSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
-//        builder.setSpan(typefaceSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
         builder.setSpan(new RelativeSizeSpan(1.2f), 0, builder.length(),
                 Spanned.SPAN_COMPOSING);
         return builder;

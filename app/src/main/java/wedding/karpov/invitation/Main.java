@@ -62,14 +62,8 @@ public class Main extends ActionBarActivity {
             ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(
                     getResources().getColor(R.color.title_color));
             StyleSpan styleSpan = new StyleSpan(Typeface.NORMAL);
-            Typeface font = Typeface.createFromAsset(getAssets(), "Lora/Lora-Bold.ttf");
             Typeface font2 = Typeface
                     .createFromAsset(getAssets(), "Marck_Script/MarckScript-Regular.ttf");
-            Typeface font3 = Typeface.createFromAsset(getAssets(), "Neucha/Neucha.ttf");
-            Typeface font4 = Typeface
-                    .createFromAsset(getAssets(), "Ruslan_Display/RuslanDisplay.ttf");
-            Typeface font5 = Typeface
-                    .createFromAsset(getAssets(), "Seymour_One/SeymourOne-Regular.ttf");
             CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", font2);
             builder.setSpan(styleSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
             builder.setSpan(foregroundColorSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
@@ -92,11 +86,8 @@ public class Main extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem item = menu.add(0, R.id.action_example, 1,
-                (((InvitationApplication) getApplication()).getGuest() != null ?
-                        getString(R.string.action_example)
-                                + ((InvitationApplication) getApplication()).getGuest().getName()
-                        : "")).setIcon(R.drawable.ic_cake_black_24dp);
+        MenuItem item = menu.add(0, R.id.action_example, 1, getString(R.string.action_example)
+        );//.setIcon(R.drawable.ic_cake_black_24dp);
         MenuItemCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return super.onCreateOptionsMenu(menu);
     }
