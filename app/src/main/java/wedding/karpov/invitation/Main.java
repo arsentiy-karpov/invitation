@@ -2,6 +2,7 @@ package wedding.karpov.invitation;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
@@ -15,12 +16,16 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import wedding.karpov.invitation.fragments.QuestionCategoryFragment;
 import wedding.karpov.invitation.fragments.QuestionContainerFragment;
@@ -40,6 +45,8 @@ public class Main extends ActionBarActivity {
 
     private ViewPager mViewPager;
 
+    private ImageView mJake;
+
     private SamplePagerAdapter mViewPagerAdapter;
 
     private BackImageView mBackImage;
@@ -49,6 +56,8 @@ public class Main extends ActionBarActivity {
     private ExtendedLinearLayout mContainer;
 
     private boolean mIsMovedDown = true;
+
+    private static final int TABS_OFFSET_DP = 48;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +85,8 @@ public class Main extends ActionBarActivity {
         }
         mBackImage = (BackImageView) findViewById(R.id.toolbar_image);
         mContainer = (ExtendedLinearLayout) findViewById(R.id.container);
+        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
+        mJake = (ImageView) findViewById(R.id.jake);
         mContainer.setImageView(mBackImage);
         mContainer.invalidate();
         if (savedInstanceState != null && savedInstanceState.getFloat("tY", -666f) != -666f) {
@@ -112,6 +123,7 @@ public class Main extends ActionBarActivity {
             if (getSupportFragmentManager().findFragmentByTag("login_screen") == null) {
                 if (mToolbar != null) {
                     mToolbar.setVisibility(View.GONE);
+                    mSlidingTabLayout.setVisibility(View.INVISIBLE);
                     moveDown();
                 }
                 OverlappingScreen.newInstance(new LoginScreenGenerator())
@@ -138,6 +150,7 @@ public class Main extends ActionBarActivity {
 
     public void updateGuestContent() {
         mToolbar.setVisibility(View.VISIBLE);
+        mSlidingTabLayout.setVisibility(View.VISIBLE);
         mViewPager.getAdapter().notifyDataSetChanged();
         moveUp();
     }
@@ -152,18 +165,60 @@ public class Main extends ActionBarActivity {
         mSlidingTabLayout.setViewPager(mViewPager);
     }
 
+    public float pxFromDp(int dp) {
+        Resources r = getResources();
+        float px = TypedValue
+                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
+        return px;
+    }
+
     private boolean isMovedDown() {
         return mIsMovedDown;
     }
 
+    private void moveJakeUp() {
+        ValueAnimator a = ObjectAnimator
+                .ofFloat(mJake, "translationY", mJake.getTranslationY(),
+                        mJake.getTranslationY() - pxFromDp(TABS_OFFSET_DP));
+//        ValueAnimator a1 = ObjectAnimator
+//                .ofFloat(mJake, "scaleX", mJake.getScaleX(),
+//                        mJake.getScaleX() / 2);
+//        ValueAnimator a2 = ObjectAnimator
+//                .ofFloat(mJake, "scaleY", mJake.getScaleY(),
+//                        mJake.getScaleY() / 2);
+        a.setDuration(1000);
+//        a1.setDuration(2000).start();
+//        a2.setDuration(2000).start();
+        a.setInterpolator(new DecelerateInterpolator(1f));
+        a.start();
+    }
+
+    private void moveJakeDown() {
+        ValueAnimator a = ObjectAnimator
+                .ofFloat(mJake, "translationY", mJake.getTranslationY(),
+                        mJake.getTranslationY() + pxFromDp(TABS_OFFSET_DP));
+//        ValueAnimator a1 = ObjectAnimator
+//                .ofFloat(mJake, "scaleX", mJake.getScaleX(),
+//                        mJake.getScaleX() * 2);
+//        ValueAnimator a2 = ObjectAnimator
+//                .ofFloat(mJake, "scaleY", mJake.getScaleY(),
+//                        mJake.getScaleY() * 2);
+        a.setDuration(200);
+//        a1.setDuration(2000).start();
+//        a2.setDuration(2000).start();
+        a.setInterpolator(new DecelerateInterpolator(1f));
+        a.start();
+    }
+
     private void moveUp() {
         if (isMovedDown()) {
+            moveJakeUp();
             ValueAnimator a = ObjectAnimator
                     .ofFloat(mContainer, "translationY", mContainer.getTranslationY(),
                             mContainer.getTranslationY() - mContainer.getParentMeasuredHeight()
                                     * ExtendedLinearLayout.EXTENDED_HEIGHT_KOEFF);
             a.setDuration(1000);
-            a.setInterpolator(new AnticipateInterpolator(2f));
+            a.setInterpolator(new DecelerateInterpolator(2f));
             a.start();
             mIsMovedDown = false;
         }
@@ -171,8 +226,9 @@ public class Main extends ActionBarActivity {
 
     private void moveDown() {
         if (!isMovedDown()) {
+            moveJakeDown();
             ValueAnimator a = ObjectAnimator.ofFloat(mContainer.getTranslationY(), 0);
-            a.setDuration(700);
+            a.setDuration(1000);
             a.setInterpolator(new DecelerateInterpolator(2f));
             a.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
@@ -185,6 +241,14 @@ public class Main extends ActionBarActivity {
         }
     }
 
+    private void placeSlidingPanel() {
+//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+//                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//        mSlidingTabLayout.setLayoutParams(layoutParams);
+//        mSlidingTabLayout.invalidate();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -195,6 +259,7 @@ public class Main extends ActionBarActivity {
                         if (!mIsAlreadyGlobalLayout) {
                             showLoginFragment();
                             mIsAlreadyGlobalLayout = true;
+                            placeSlidingPanel();
                         }
                     }
                 });

@@ -17,21 +17,30 @@
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="match_parent"
                           android:orientation="vertical">
-                <wedding.karpov.invitation.widget.BackImageView
-                        android:id="@+id/toolbar_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/house"/>
+                    <wedding.karpov.invitation.widget.BackImageView
+                            android:id="@+id/toolbar_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginBottom="-248dp"
+                            android:background="@drawable/back"/>
                 <LinearLayout android:layout_width="match_parent"
                               android:layout_height="wrap_content"
                               android:orientation="vertical">
+                    <ImageView
+                               android:id="@+id/jake"
+                               android:layout_width="wrap_content"
+                               android:layout_height="200dp"
+                               android:scaleType="centerInside"
+                               android:translationY="48dp"
+                               android:adjustViewBounds="true"
+                               android:layout_gravity="center_horizontal"
+                               android:src="@drawable/jake"/>
                     <wedding.karpov.invitation.widget.SlidingTabLayout
                             android:id="@+id/sliding_tabs"
-                            android:background="@color/primary"
+                            android:background="#a3ffffff"
+                            android:backgroundTintMode="src_over"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
-
                     <android.support.v4.view.ViewPager
                             android:id="@+id/viewpager"
                             android:layout_width="match_parent"

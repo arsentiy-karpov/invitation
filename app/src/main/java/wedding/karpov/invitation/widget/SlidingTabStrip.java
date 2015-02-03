@@ -18,7 +18,7 @@ class SlidingTabStrip extends LinearLayout {
 
     private static final int SELECTED_INDICATOR_THICKNESS_DIPS = 8;
 
-    private static int DEFAULT_SELECTED_INDICATOR_COLOR = 0xFF33B5E5;
+    private static int DEFAULT_SELECTED_INDICATOR_COLOR = 0xFF000000;
 
     private static final int DEFAULT_DIVIDER_THICKNESS_DIPS = 1;
 
@@ -58,8 +58,9 @@ class SlidingTabStrip extends LinearLayout {
 
         final float density = getResources().getDisplayMetrics().density;
 
-        DEFAULT_SELECTED_INDICATOR_COLOR = getResources()
-                .getColor(wedding.karpov.invitation.R.color.primary_dark);
+        DEFAULT_SELECTED_INDICATOR_COLOR = Color.argb(100, 0, 0, 0);
+//                getResources()
+//                .getColor(wedding.karpov.invitation.R.color.guest_name_color);
 
         TypedValue outValue = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.colorForeground, outValue, true);

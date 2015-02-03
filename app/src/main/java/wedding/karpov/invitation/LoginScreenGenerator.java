@@ -23,17 +23,32 @@ public class LoginScreenGenerator implements OverlappingScreen.InformationScreen
         v.findViewById(R.id.login_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Guest guest = GuestFactory
+                final Guest guest = GuestFactory
                         .getGuestByCode(((EditText) v.findViewById(R.id.code)).getText().toString(),
                                 overlappingInformationScreen.getActivity());
                 if (guest != null) {
-                    InputMethodManager imm = (InputMethodManager) overlappingInformationScreen
-                            .getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.findViewById(R.id.code).getWindowToken(), 0);
-                    ((InvitationApplication) (overlappingInformationScreen.getActivity()
+                    ((InvitationApplication) (overlappingInformationScreen
+                            .getActivity()
                             .getApplication())).setGuest(guest);
-                    ((Main) overlappingInformationScreen.getActivity()).updateGuestContent();
-                    overlappingInformationScreen.detach();
+                    ((Main) overlappingInformationScreen.getActivity())
+                            .updateGuestContent();
+                    overlappingInformationScreen
+                            .detach(new OverlappingScreen.OnAnimationListener() {
+                                @Override
+                                public void onEnd() {
+
+                                }
+
+                                @Override
+                                public void onStart() {
+//                                    InputMethodManager imm
+//                                            = (InputMethodManager) overlappingInformationScreen
+//                                            .getActivity()
+//                                            .getSystemService(Context.INPUT_METHOD_SERVICE);
+//                                    imm.hideSoftInputFromWindow(
+//                                            v.findViewById(R.id.code).getWindowToken(), 0);
+                                }
+                            });
                 } else {
                     Toast.makeText(overlappingInformationScreen.getActivity(),
                             overlappingInformationScreen.getActivity()

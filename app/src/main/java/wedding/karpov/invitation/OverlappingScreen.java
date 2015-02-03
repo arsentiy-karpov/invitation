@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.FrameLayout;
 
 import java.io.Serializable;
@@ -35,6 +36,11 @@ public class OverlappingScreen extends Fragment {
         overlappingInformationScreen.setInformationScreenGenerator(informationScreenGenerator);
         overlappingInformationScreen.setRetainInstance(true);
         return overlappingInformationScreen;
+    }
+
+    public static interface OnAnimationListener {
+        void onEnd();
+        void onStart();
     }
 
     private InformationScreenGenerator mInformationScreenGenerator;
@@ -56,7 +62,7 @@ public class OverlappingScreen extends Fragment {
             mAttachedView = new ClosingLayout(getActivity());
         }
         if (mInformationScreenGenerator != null) {
-        mAttachedView.addView(mInformationScreenGenerator.getView(this));
+            mAttachedView.addView(mInformationScreenGenerator.getView(this));
         }
         ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE))
                 .addView(mAttachedView, layoutParams);
@@ -110,17 +116,40 @@ public class OverlappingScreen extends Fragment {
         if (mAttachedView != null) {
             ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE))
                     .removeView(mAttachedView);
-            mAttachedView = null;
         }
+        mAttachedView = null;
     }
 
-    public void detach() {
-        if (mAttachedView != null) {
-            ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE))
-                    .removeView(mAttachedView);
-            mAttachedView = null;
+    public void detach(final OnAnimationListener listener) {
+        AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
+        alphaAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+        alphaAnimation.setDuration(100);
+        alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                listener.onStart();
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                listener.onEnd();
+                if (mAttachedView != null) {
+                    ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE))
+                            .removeView(mAttachedView);
+                    mAttachedView = null;
+                }
+                getFragmentManager().beginTransaction().remove(OverlappingScreen.this)
+                        .commitAllowingStateLoss();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        if (mAttachedView.getChildAt(0) != null) {
+            mAttachedView.getChildAt(0).startAnimation(alphaAnimation);
         }
-        getFragmentManager().beginTransaction().remove(this).commitAllowingStateLoss();
     }
 
     private class ClosingLayout extends FrameLayout {

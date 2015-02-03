@@ -3,11 +3,13 @@ package wedding.karpov.invitation.widget;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
+import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,7 +22,7 @@ public class ExtendedLinearLayout extends LinearLayout {
 
     int mParentMeasuredHeight = -1;
 
-    public static final float EXTENDED_HEIGHT_KOEFF = 2f / 2.6f;
+    public static final float EXTENDED_HEIGHT_KOEFF = 2f / 2.9f;
 
     public ExtendedLinearLayout(Context context) {
         super(context);
@@ -72,7 +74,7 @@ public class ExtendedLinearLayout extends LinearLayout {
         if (mParentMeasuredHeight == -1) {
             mParentMeasuredHeight = MeasureSpec.getSize(heightMeasureSpec);
             if (mImageView != null) {
-                mImageView.setDesiredHeight(mParentMeasuredHeight);
+                mImageView.setDesiredHeight((int) (mParentMeasuredHeight));
             }
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -109,6 +111,7 @@ public class ExtendedLinearLayout extends LinearLayout {
                     public SavedState createFromParcel(Parcel in) {
                         return new SavedState(in);
                     }
+
                     public SavedState[] newArray(int size) {
                         return new SavedState[size];
                     }
