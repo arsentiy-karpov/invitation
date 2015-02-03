@@ -16,14 +16,14 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:scaleType="centerInside"
-                android:layout_gravity="center_horizontal"
-                android:adjustViewBounds="true"
-                android:background="#000000"
-                android:src="@drawable/js"/>
+        <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:scaleType="centerInside"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:adjustViewBounds="true"-->
+                <!--android:background="#000000"-->
+                <!--android:src="@drawable/js"/>-->
         <TextView android:text="@string/login_title"
                   android:layout_marginLeft="72dp"
                   android:layout_marginRight="72dp"

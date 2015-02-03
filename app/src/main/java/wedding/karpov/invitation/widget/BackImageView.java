@@ -9,7 +9,7 @@ import android.widget.ImageView;
  */
 public class BackImageView extends ImageView {
 
-    private int mDesiredHeight;
+    private int mDesiredHeight = 0;
 
     public BackImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -26,7 +26,10 @@ public class BackImageView extends ImageView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int heightDesiredSpec = MeasureSpec.makeMeasureSpec(mDesiredHeight, MeasureSpec.EXACTLY);
-        setMeasuredDimension(widthMeasureSpec, heightDesiredSpec);
+        if (mDesiredHeight != 0) {
+            int heightDesiredSpec = MeasureSpec
+                    .makeMeasureSpec(mDesiredHeight, MeasureSpec.EXACTLY);
+            setMeasuredDimension(widthMeasureSpec, heightDesiredSpec);
+        }
     }
 }

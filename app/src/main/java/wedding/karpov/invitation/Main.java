@@ -51,6 +51,8 @@ public class Main extends ActionBarActivity {
 
     private BackImageView mBackImage;
 
+    private ViewGroup mTabsContainer;
+
     private boolean mIsAlreadyGlobalLayout = false;
 
     private ExtendedLinearLayout mContainer;
@@ -85,9 +87,11 @@ public class Main extends ActionBarActivity {
         }
         mBackImage = (BackImageView) findViewById(R.id.toolbar_image);
         mContainer = (ExtendedLinearLayout) findViewById(R.id.container);
+        mContainer.setLoginContainer(
+                (wedding.karpov.invitation.widget.LoginLayout) findViewById(R.id.login_container));
+        mTabsContainer = (ViewGroup) findViewById(R.id.tabs_container);
         mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
         mJake = (ImageView) findViewById(R.id.jake);
-        mContainer.setImageView(mBackImage);
         mContainer.invalidate();
         if (savedInstanceState != null && savedInstanceState.getFloat("tY", -666f) != -666f) {
             mContainer.setTranslationY(savedInstanceState.getFloat("tY"));
@@ -123,7 +127,6 @@ public class Main extends ActionBarActivity {
             if (getSupportFragmentManager().findFragmentByTag("login_screen") == null) {
                 if (mToolbar != null) {
                     mToolbar.setVisibility(View.GONE);
-                    mSlidingTabLayout.setVisibility(View.INVISIBLE);
                     moveDown();
                 }
                 OverlappingScreen.newInstance(new LoginScreenGenerator())
@@ -150,7 +153,6 @@ public class Main extends ActionBarActivity {
 
     public void updateGuestContent() {
         mToolbar.setVisibility(View.VISIBLE);
-        mSlidingTabLayout.setVisibility(View.VISIBLE);
         mViewPager.getAdapter().notifyDataSetChanged();
         moveUp();
     }
@@ -176,19 +178,29 @@ public class Main extends ActionBarActivity {
         return mIsMovedDown;
     }
 
+    private void moveTabsUp() {
+        ValueAnimator a = ObjectAnimator
+                .ofFloat(mTabsContainer, "translationY", mTabsContainer.getTranslationY(),
+                        mTabsContainer.getTranslationY() - pxFromDp(TABS_OFFSET_DP));
+        a.setDuration(1000);
+        a.setInterpolator(new DecelerateInterpolator(1f));
+        a.start();
+    }
+
+    private void moveTabsDown() {
+        ValueAnimator a = ObjectAnimator
+                .ofFloat(mTabsContainer, "translationY", mTabsContainer.getTranslationY(),
+                        mTabsContainer.getTranslationY() + pxFromDp(TABS_OFFSET_DP));
+        a.setDuration(1000);
+        a.setInterpolator(new DecelerateInterpolator(1f));
+        a.start();
+    }
+
     private void moveJakeUp() {
         ValueAnimator a = ObjectAnimator
                 .ofFloat(mJake, "translationY", mJake.getTranslationY(),
                         mJake.getTranslationY() - pxFromDp(TABS_OFFSET_DP));
-//        ValueAnimator a1 = ObjectAnimator
-//                .ofFloat(mJake, "scaleX", mJake.getScaleX(),
-//                        mJake.getScaleX() / 2);
-//        ValueAnimator a2 = ObjectAnimator
-//                .ofFloat(mJake, "scaleY", mJake.getScaleY(),
-//                        mJake.getScaleY() / 2);
         a.setDuration(1000);
-//        a1.setDuration(2000).start();
-//        a2.setDuration(2000).start();
         a.setInterpolator(new DecelerateInterpolator(1f));
         a.start();
     }
@@ -197,22 +209,15 @@ public class Main extends ActionBarActivity {
         ValueAnimator a = ObjectAnimator
                 .ofFloat(mJake, "translationY", mJake.getTranslationY(),
                         mJake.getTranslationY() + pxFromDp(TABS_OFFSET_DP));
-//        ValueAnimator a1 = ObjectAnimator
-//                .ofFloat(mJake, "scaleX", mJake.getScaleX(),
-//                        mJake.getScaleX() * 2);
-//        ValueAnimator a2 = ObjectAnimator
-//                .ofFloat(mJake, "scaleY", mJake.getScaleY(),
-//                        mJake.getScaleY() * 2);
-        a.setDuration(200);
-//        a1.setDuration(2000).start();
-//        a2.setDuration(2000).start();
+        a.setDuration(1000);
         a.setInterpolator(new DecelerateInterpolator(1f));
         a.start();
     }
 
     private void moveUp() {
         if (isMovedDown()) {
-            moveJakeUp();
+            moveTabsUp();
+//            moveJakeUp();
             ValueAnimator a = ObjectAnimator
                     .ofFloat(mContainer, "translationY", mContainer.getTranslationY(),
                             mContainer.getTranslationY() - mContainer.getParentMeasuredHeight()
@@ -226,7 +231,8 @@ public class Main extends ActionBarActivity {
 
     private void moveDown() {
         if (!isMovedDown()) {
-            moveJakeDown();
+            moveTabsDown();
+//            moveJakeDown();
             ValueAnimator a = ObjectAnimator.ofFloat(mContainer.getTranslationY(), 0);
             a.setDuration(1000);
             a.setInterpolator(new DecelerateInterpolator(2f));

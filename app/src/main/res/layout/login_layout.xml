@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <wedding.karpov.invitation.widget.BackImageView
+            android:id="@+id/toolbar_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/back"/>
+    <RelativeLayout android:id="@+id/tabs_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:translationY="48dp"
+                    android:layout_alignParentBottom="true">
+        <ImageView
+                android:id="@+id/jake"
+                android:layout_width="wrap_content"
+                android:layout_height="250dp"
+                android:layout_alignParentBottom="true"
+                android:scaleType="centerInside"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/jake"/>
+        <wedding.karpov.invitation.widget.SlidingTabLayout
+                android:id="@+id/sliding_tabs"
+                android:background="#a3ffffff"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+    </RelativeLayout>
+</RelativeLayout>

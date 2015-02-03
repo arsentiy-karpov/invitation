@@ -13,6 +13,8 @@ import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import wedding.karpov.invitation.R;
+
 /**
  * Created by akarpov on 1/20/15.
  */
@@ -20,16 +22,18 @@ public class ExtendedLinearLayout extends LinearLayout {
 
     BackImageView mImageView;
 
+    LoginLayout mLoginContainer;
+
     int mParentMeasuredHeight = -1;
 
     public static final float EXTENDED_HEIGHT_KOEFF = 2f / 2.9f;
 
     public ExtendedLinearLayout(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public ExtendedLinearLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
     }
 
     public ExtendedLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -39,6 +43,10 @@ public class ExtendedLinearLayout extends LinearLayout {
     public int getDesiredHeight() {
         return Math.round(getParentMeasuredHeight()
                 + getParentMeasuredHeight() * EXTENDED_HEIGHT_KOEFF);
+    }
+
+    public void setLoginContainer(LoginLayout loginContainer) {
+        mLoginContainer = loginContainer;
     }
 
     public void setImageView(BackImageView imageView) {
@@ -73,6 +81,9 @@ public class ExtendedLinearLayout extends LinearLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (mParentMeasuredHeight == -1) {
             mParentMeasuredHeight = MeasureSpec.getSize(heightMeasureSpec);
+            if (mLoginContainer != null) {
+                mLoginContainer.setDesiredHeight((int) (mParentMeasuredHeight));
+            }
             if (mImageView != null) {
                 mImageView.setDesiredHeight((int) (mParentMeasuredHeight));
             }
