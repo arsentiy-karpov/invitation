@@ -11,12 +11,12 @@
     <RelativeLayout android:id="@+id/tabs_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:translationY="48dp"
+                    android:translationY="150dp"
                     android:layout_alignParentBottom="true">
         <ImageView
                 android:id="@+id/jake"
                 android:layout_width="wrap_content"
-                android:layout_height="250dp"
+                android:layout_height="200dp"
                 android:layout_alignParentBottom="true"
                 android:scaleType="centerInside"
                 android:adjustViewBounds="true"

@@ -59,7 +59,7 @@ public class Main extends ActionBarActivity {
 
     private boolean mIsMovedDown = true;
 
-    private static final int TABS_OFFSET_DP = 48;
+    private static final int TABS_OFFSET_DP = 150;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,7 +182,7 @@ public class Main extends ActionBarActivity {
         ValueAnimator a = ObjectAnimator
                 .ofFloat(mTabsContainer, "translationY", mTabsContainer.getTranslationY(),
                         mTabsContainer.getTranslationY() - pxFromDp(TABS_OFFSET_DP));
-        a.setDuration(1000);
+        a.setDuration(1300);
         a.setInterpolator(new DecelerateInterpolator(1f));
         a.start();
     }
@@ -191,7 +191,7 @@ public class Main extends ActionBarActivity {
         ValueAnimator a = ObjectAnimator
                 .ofFloat(mTabsContainer, "translationY", mTabsContainer.getTranslationY(),
                         mTabsContainer.getTranslationY() + pxFromDp(TABS_OFFSET_DP));
-        a.setDuration(1000);
+        a.setDuration(1300);
         a.setInterpolator(new DecelerateInterpolator(1f));
         a.start();
     }

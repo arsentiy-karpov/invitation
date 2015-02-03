@@ -14,13 +14,22 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            proguardFile 'proguard.cfg'
+//            signingConfig signingConfigs.release
         }
     }
     lintOptions {
         checkReleaseBuilds false
         abortOnError false;
     }
+//    signingConfigs {
+//        release {
+//            storeFile file('keystore/qiwi.keystore')
+//            storePassword 'lJN016vD'
+//            keyAlias 'qiwi-new'
+//            keyPassword 'lJN016vD'
+//        }
+//    }
 }
 
 dependencies {
