@@ -121,18 +121,21 @@ public class OverlappingScreen extends Fragment {
     }
 
     public void detach(final OnAnimationListener listener) {
-        AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
-        alphaAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
-        alphaAnimation.setDuration(100);
-        alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                listener.onStart();
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                listener.onEnd();
+//        AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
+//        alphaAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+//        alphaAnimation.setDuration(2000);
+//        if (mAttachedView.getChildAt(0) != null) {
+//            mAttachedView.getChildAt(0).startAnimation(alphaAnimation);
+//        }
+//        alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//                listener.onStart();
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//                listener.onEnd();
                 if (mAttachedView != null) {
                     ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE))
                             .removeView(mAttachedView);
@@ -140,16 +143,14 @@ public class OverlappingScreen extends Fragment {
                 }
                 getFragmentManager().beginTransaction().remove(OverlappingScreen.this)
                         .commitAllowingStateLoss();
-            }
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//
+//            }
+//        });
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        if (mAttachedView.getChildAt(0) != null) {
-            mAttachedView.getChildAt(0).startAnimation(alphaAnimation);
-        }
     }
 
     private class ClosingLayout extends FrameLayout {

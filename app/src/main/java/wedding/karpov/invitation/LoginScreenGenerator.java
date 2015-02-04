@@ -27,11 +27,6 @@ public class LoginScreenGenerator implements OverlappingScreen.InformationScreen
                         .getGuestByCode(((EditText) v.findViewById(R.id.code)).getText().toString(),
                                 overlappingInformationScreen.getActivity());
                 if (guest != null) {
-                    ((InvitationApplication) (overlappingInformationScreen
-                            .getActivity()
-                            .getApplication())).setGuest(guest);
-                    ((Main) overlappingInformationScreen.getActivity())
-                            .updateGuestContent();
                     overlappingInformationScreen
                             .detach(new OverlappingScreen.OnAnimationListener() {
                                 @Override
@@ -41,14 +36,19 @@ public class LoginScreenGenerator implements OverlappingScreen.InformationScreen
 
                                 @Override
                                 public void onStart() {
-//                                    InputMethodManager imm
-//                                            = (InputMethodManager) overlappingInformationScreen
-//                                            .getActivity()
-//                                            .getSystemService(Context.INPUT_METHOD_SERVICE);
-//                                    imm.hideSoftInputFromWindow(
-//                                            v.findViewById(R.id.code).getWindowToken(), 0);
+                                    InputMethodManager imm
+                                            = (InputMethodManager) overlappingInformationScreen
+                                            .getActivity()
+                                            .getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    imm.hideSoftInputFromWindow(
+                                            v.findViewById(R.id.code).getWindowToken(), 0);
                                 }
                             });
+                    ((InvitationApplication) (overlappingInformationScreen
+                            .getActivity()
+                            .getApplication())).setGuest(guest);
+                    ((Main) overlappingInformationScreen.getActivity())
+                            .updateGuestContent();
                 } else {
                     Toast.makeText(overlappingInformationScreen.getActivity(),
                             overlappingInformationScreen.getActivity()

@@ -11,7 +11,7 @@
     <RelativeLayout android:id="@+id/tabs_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:translationY="150dp"
+                    android:translationY="100dp"
                     android:layout_alignParentBottom="true">
         <ImageView
                 android:id="@+id/jake"

@@ -72,23 +72,23 @@ public class QuestionCategoryFragment extends Fragment {
                     break;
             }
 
-            switch (q2) {
-                case 0:
-                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 1?"));
-                    break;
-                case 1:
-                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 2?"));
-                    break;
-                case 2:
-                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 3?"));
-                    break;
-                case 3:
-                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 4?"));
-                    break;
-                case 4:
-                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 5?"));
-                    break;
-            }
+//            switch (q2) {
+//                case 0:
+//                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 1?"));
+//                    break;
+//                case 1:
+//                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 2?"));
+//                    break;
+//                case 2:
+//                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 3?"));
+//                    break;
+//                case 3:
+//                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 4?"));
+//                    break;
+//                case 4:
+//                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 5?"));
+//                    break;
+//            }
             mRecyclerView.setAdapter(questionsAdapter);
         }
     }

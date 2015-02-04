@@ -73,12 +73,8 @@ public class WhereFragment extends Fragment{
                 getResources().getColor(
                         R.color.guest_name_color));
         StyleSpan styleSpan = new StyleSpan(Typeface.NORMAL);
-        Typeface font3 = Typeface
-                .createFromAsset(getActivity().getAssets(), "Neucha/Neucha.ttf");
-        CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", font3);
         builder.setSpan(styleSpan, 0, 1, Spanned.SPAN_COMPOSING);
         builder.setSpan(foregroundColorSpan, 0, 1, Spanned.SPAN_COMPOSING);
-        builder.setSpan(typefaceSpan, 0, 1, Spanned.SPAN_COMPOSING);
         builder.setSpan(new RelativeSizeSpan(1.8f), 0, 1,
                 Spanned.SPAN_COMPOSING);
         builder.setSpan(new RelativeSizeSpan(1.2f), 1, builder.length(),
