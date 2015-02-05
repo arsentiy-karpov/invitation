@@ -2,20 +2,18 @@ package wedding.karpov.invitation.guests;
 
 import android.content.Context;
 
-import wedding.karpov.invitation.R;
-
 /**
- * Created by akarpov on 1/28/15.
+ * Created by akarpov on 2/5/15.
  */
-public class ShapiroGuest extends AbstarctGuest {
+public class NickGuest extends AbstarctGuest {
 
-    public ShapiroGuest(Context context) {
+    public NickGuest(Context context) {
         super(context);
     }
 
     @Override
     public String getName() {
-        return "Диман";
+        return "Ник";
     }
 
     @Override
@@ -27,5 +25,4 @@ public class ShapiroGuest extends AbstarctGuest {
     public GuestGender getGender() {
         return GuestGender.M;
     }
-
 }

@@ -71,6 +71,7 @@ public class QuestionCategoryFragment extends Fragment {
                         Toast.makeText(getActivity(),
                                 "Отправлено!\n" + mQuestion + ":\n"
                                         + mAnswer.getText().toString(), Toast.LENGTH_LONG).show();
+                        setNewQuestion();
                     }
                 });
 
@@ -85,6 +86,14 @@ public class QuestionCategoryFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        if (mAnswer.getText().length() < 1) {
+            setNewQuestion();
+        }
+    }
+
+    private void setNewQuestion() {
+        mAnswer.setText("");
+        mAnswer.clearFocus();
         mQuestion = getQuestion();
         mAnswer.setHint(mQuestion);
     }
@@ -96,13 +105,13 @@ public class QuestionCategoryFragment extends Fragment {
             case 0:
                 return "Вопрос о нас 1?";
             case 1:
-                return "Вопрос о нас 1?";
+                return "Вопрос о нас 2?";
             case 2:
-                return "Вопрос о нас 1?";
+                return "Вопрос о нас 3?";
             case 3:
-                return "Вопрос о нас 1?";
+                return "Вопрос о нас 4?";
             case 4:
-                return "Вопрос о нас 1?";
+                return "Вопрос о нас 5?";
         }
         return "";
     }
