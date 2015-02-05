@@ -91,8 +91,6 @@ public class QuestionCategoryFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        addQuestion("1");
-        addQuestion("2");
         if (mAnswer.getText().length() < 1) {
             fetchQuestions();
         }
