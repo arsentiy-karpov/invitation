@@ -65,6 +65,40 @@ public class GuestFactory {
 //                return new ZeitlinGuest(context);
 //            case "shap":
 //                return new ZinjaGuest(context);
+//            case "shap":
+//                return new JasjaSeregaGuest(context);
+//            case "":
+//                return new NadjaLeshaGuest(context);
+//            case "shap":
+//                return new MamaPapaGuest(context);
+//            case "shap":
+//                return new MamaUGuest(context);
+//            case "shap":
+//                return new IgorOlgaGuest(context);
+//            case "shap":
+//                return new PapaUGuest(context);
+//            case "shap":
+//                return new LesjaGuest(context);
+//            case "shap":
+//                return new AnjaGuest(context);
+//            case "shap":
+//                return new SashuriniGuest(context);
+//            case "shap":
+//                return new LubaGuest(context);
+//            case "shap":
+//                return new OksanaGuest(context);
+//            case "shap":
+//                return new ValjaUraGuest(context);
+//            case "shap":
+//                return new MaksimGuest(context);
+//            case "shap":
+//                return new SergejGuest(context);
+//            case "shap":
+//                return new LenaGuest(context);
+//            case "shap":
+//                return new VovaGuest(context);
+//            case "shap":
+//                return new DashaUGuest(context);
         }
         return null;
     }
