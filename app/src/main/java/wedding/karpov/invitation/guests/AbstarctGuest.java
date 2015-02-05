@@ -37,14 +37,14 @@ public abstract class AbstarctGuest implements Guest {
     }
 
     protected CharSequence getStylingSignature() {
-        SpannableString builder = new SpannableString("Арсентий и Евгения!");
+        SpannableString builder = new SpannableString("Арсентий и Евгения");
         ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(
                 mContext.getResources().getColor(
                         R.color.guest_name_color));
         StyleSpan styleSpan = new StyleSpan(Typeface.NORMAL);
         builder.setSpan(styleSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
         builder.setSpan(foregroundColorSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
-        builder.setSpan(new RelativeSizeSpan(1.3f), 0, builder.length(),
+        builder.setSpan(new RelativeSizeSpan(1.2f), 0, builder.length(),
                 Spanned.SPAN_COMPOSING);
         return builder;
     }

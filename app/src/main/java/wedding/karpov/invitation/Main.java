@@ -60,7 +60,7 @@ public class Main extends ActionBarActivity {
 
     private boolean mIsMovedDown = true;
 
-    private static final int TABS_OFFSET_DP = 140;
+    private static final int TABS_OFFSET_DP = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

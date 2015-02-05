@@ -64,7 +64,7 @@ public class QuestionCategoryFragment extends Fragment {
                 guestAnswerObject
                         .put("create",
                                 Calendar.getInstance(TimeZone.getDefault())
-                                        .getTime());
+                                        .getTime().toString());
                 guestAnswerObject.saveEventually(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {

@@ -11,20 +11,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="100dp"-->
-                <!--android:scaleType="centerInside"-->
-                <!--android:layout_gravity="center_horizontal"-->
-                <!--android:adjustViewBounds="true"-->
-                <!--android:background="#000000"-->
-                <!--android:src="@drawable/js"/>-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:scaleType="centerInside"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--android:background="#000000"-->
+        <!--android:src="@drawable/js"/>-->
         <!--<TextView android:text="@string/login_title"-->
-                  <!--android:layout_marginLeft="72dp"-->
-                  <!--android:layout_marginRight="72dp"-->
-                  <!--android:layout_marginBottom="8dp"-->
-                  <!--style="@android:style/TextAppearance.Small"-->
-                  <!--android:layout_width="wrap_content"-->
-                  <!--android:layout_height="wrap_content"/>-->
+        <!--android:layout_marginLeft="72dp"-->
+        <!--android:layout_marginRight="72dp"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--style="@android:style/TextAppearance.Small"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"/>-->
 
         <EditText
                 android:id="@+id/code"
@@ -54,4 +54,16 @@
             android:layout_centerVertical="true"
             android:adjustViewBounds="true"
             android:src="@drawable/wedding"/>
+    <ImageView
+            android:id="@+id/we"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            android:alpha="0.7"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:adjustViewBounds="true"
+            android:layout_alignParentBottom="true"
+            android:translationY="100dp"
+            android:src="@drawable/we"/>
 </RelativeLayout>

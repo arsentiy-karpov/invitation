@@ -15,6 +15,8 @@ public class GuestFactory {
                 return new UshakovaGuest(context);
             case "shap":
                 return new ShapiroGuest(context);
+            case "debug":
+                return new TestGuest(context);
 //            case "shap":
 //                return new AbramovaGuest(context);
 //            case "":

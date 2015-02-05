@@ -25,7 +25,7 @@ import wedding.karpov.invitation.objects.CustomTypefaceSpan;
 /**
  * Created by akarpov on 1/14/15.
  */
-public class WhereFragment extends Fragment{
+public class WhereFragment extends Fragment {
 
     TextView mWhereTW;
 
@@ -36,7 +36,6 @@ public class WhereFragment extends Fragment{
         mWhereTW = (TextView) v.findViewById(R.id.where_text);
         return v;
     }
-
 
 
     @Override
@@ -59,11 +58,23 @@ public class WhereFragment extends Fragment{
     }
 
     private CharSequence getIssueDateText() {
-        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(
-                getResources().getColor(
-                        R.color.guest_name_color));
         SpannableStringBuilder builder = new SpannableStringBuilder(getString(R.string.where_text));
-        builder.setSpan(foregroundColorSpan, 0, builder.length(), Spanned.SPAN_COMPOSING);
+//        builder.setSpan(new ForegroundColorSpan(
+//                getResources().getColor(
+//                        R.color.guest_name_color)), 0, 15,
+//                SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(new ForegroundColorSpan(
+                getResources().getColor(
+                        R.color.accent)), 15, 38, SpannableStringBuilder.SPAN_COMPOSING);
+//        builder.setSpan(new ForegroundColorSpan(
+//                getResources().getColor(
+//                        R.color.guest_name_color)), 38, 45,
+//                SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(new ForegroundColorSpan(
+                getResources().getColor(
+                        R.color.accent)), 45, builder.length(), Spanned.SPAN_COMPOSING);
+        builder.setSpan(new RelativeSizeSpan(1.4f), 0, builder.length(),
+                Spanned.SPAN_COMPOSING);
         return builder;
     }
 
