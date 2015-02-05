@@ -5,15 +5,15 @@ import android.content.Context;
 /**
  * Created by akarpov on 2/5/15.
  */
-public class LenaGuest extends AbstarctGuest {
+public class LenaDashaGuest extends AbstarctGuest {
 
-    public LenaGuest(Context context) {
+    public LenaDashaGuest(Context context) {
         super(context);
     }
 
     @Override
     public String getName() {
-        return "Елена";
+        return "Лена и Даша";
     }
 
     @Override
@@ -23,6 +23,6 @@ public class LenaGuest extends AbstarctGuest {
 
     @Override
     public GuestGender getGender() {
-        return GuestGender.F;
+        return GuestGender.P;
     }
 }

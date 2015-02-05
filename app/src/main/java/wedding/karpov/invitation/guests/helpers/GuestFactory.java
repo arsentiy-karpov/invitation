@@ -11,96 +11,98 @@ public class GuestFactory {
 
     public static Guest getGuestByCode(String code, Context context) {
         switch (code) {
-            case "":
+            case "ушак":
                 return new UshakovaGuest(context);
-            case "shap":
-                return new ShapiroGuest(context);
             case "debug":
                 return new TestGuest(context);
-//            case "shap":
-//                return new AbramovaGuest(context);
-//            case "":
-//                return new AnishenkoGuest(context);
-//            case "shap":
-//                return new BiduljaGuest(context);
-//            case "shap":
-//                return new DanilshenkoGuest(context);
-//            case "":
-//                return new DanjaGuest(context);
-//            case "shap":
-//                return new DashaDGuest(context);
-//            case "shap":
-//                return new EldarGuest(context);
-//            case "":
-//                return new KarpovGuest(context);
-//            case "shap":
-//                return new KazashenkoGuest(context);
-//            case "shap":
-//                return new KolubakinGuest(context);
-//            case "":
-//                return new KristinaGuest(context);
-//            case "shap":
-//                return new MashaGuest(context);
-//            case "shap":
-//                return new NarekGuest(context);
-//            case "":
-//                return new NickGuest(context);
-//            case "shap":
-//                return new NikisGuest(context);
-//            case "shap":
-//                return new NixanGuest(context);
-//            case "":
-//                return new PolishkinGuest(context);
-//            case "shap":
-//                return new PopovizkajaGuest(context);
-//            case "shap":
-//                return new RomaGuest(context);
-//            case "":
-//                return new SolopovGuest(context);
-//            case "shap":
-//                return new TvardovskajaGuest(context);
-//            case "shap":
-//                return new VerchinovGuest(context);
-//            case "":
-//                return new VityaGuest(context);
-//            case "shap":
-//                return new ZeitlinGuest(context);
-//            case "shap":
-//                return new ZinjaGuest(context);
-//            case "shap":
-//                return new JasjaSeregaGuest(context);
-//            case "":
-//                return new NadjaLeshaGuest(context);
-//            case "shap":
-//                return new MamaPapaGuest(context);
-//            case "shap":
-//                return new MamaUGuest(context);
-//            case "shap":
-//                return new IgorOlgaGuest(context);
-//            case "shap":
-//                return new PapaUGuest(context);
-//            case "shap":
-//                return new LesjaGuest(context);
-//            case "shap":
-//                return new AnjaGuest(context);
-//            case "shap":
-//                return new SashuriniGuest(context);
-//            case "shap":
-//                return new LubaGuest(context);
-//            case "shap":
-//                return new OksanaGuest(context);
-//            case "shap":
-//                return new ValjaUraGuest(context);
-//            case "shap":
-//                return new MaksimGuest(context);
-//            case "shap":
-//                return new SergejGuest(context);
-//            case "shap":
-//                return new LenaGuest(context);
-//            case "shap":
-//                return new VovaGuest(context);
-//            case "shap":
-//                return new DashaUGuest(context);
+            case "sapndance":
+                return new ShapiroGuest(context);
+            case "hellokitty":
+                return new AbramovaGuest(context);
+            case "малаша":
+                return new AnishenkoGuest(context);
+            case "хоббит":
+                return new BiduljaGuest(context);
+            case "путейский":
+                return new DanilshenkoGuest(context);
+            case "песчанка":
+                return new DanjaGuest(context);
+            case "душечка":
+                return new DashaDGuest(context);
+            case "кексик":
+                return new EldarGuest(context);
+            case "кашапарков":
+                return new KarpovGuest(context);
+            case "шапкобородыйсороконожк":
+                return new KazashenkoGuest(context);
+            case "выкачалкагитаровна":
+                return new KolubakinGuest(context);
+            case "коктейльмикс":
+                return new KristinaGuest(context);
+            case "шасси":
+                return new MashaGuest(context);
+            case "американбой":
+                return new NarekGuest(context);
+            case "узбекостезис":
+                return new NickGuest(context);
+            case "жальайфон":
+                return new NikisGuest(context);
+            case "пизданет":
+                return new NixanGuest(context);
+            case "килт":
+                return new PolishkinGuest(context);
+            case "дерзкаябулочка":
+                return new PopovizkajaGuest(context);
+            case "гогольпетров":
+                return new RomaGuest(context);
+            case "пакетированный":
+                return new SolopovGuest(context);
+            case "улыбкалюба":
+                return new TvardovskajaGuest(context);
+            case "бебехович":
+                return new VerchinovGuest(context);
+            case "крабоваяпалочка":
+                return new VityaGuest(context);
+            case "куриныйзоб":
+                return new ZeitlinGuest(context);
+            case "рок":
+                return new ZinjaGuest(context);
+            case "гудеж":
+                return new KatjaPGuest(context);
+            case "конвертикскартинкой":
+                return new DenGuest(context);
+            case "луша":
+                return new JasjaSeregaGuest(context);
+            case "дорама":
+                return new NadjaLeshaGuest(context);
+            case "родителидома":
+                return new MamaPapaGuest(context);
+            case "плюшка":
+                return new MamaUGuest(context);
+            case "бебехово":
+                return new IgorOlgaGuest(context);
+            case "мартышка":
+                return new PapaUGuest(context);
+            case "терабития":
+                return new LesjaGuest(context);
+            case "нарния":
+                return new AnjaGuest(context);
+            case "карпжество":
+                return new SashuriniGuest(context);
+            case "пляски":
+                return new LubaGuest(context);
+            case "пьянкагулянка":
+                return new OksanaGuest(context);
+            case "валентинка":
+                return new ValjaUraGuest(context);
+            case "гульба":
+                return new MaksimGuest(context);
+            case "свадьба":
+                return new SergejGuest(context);
+            case "дедовквас":
+                return new LenaDashaGuest(context);
+            case "грибник":
+                return new VovaGuest(context);
         }
         return null;
     }
