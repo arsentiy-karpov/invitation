@@ -27,6 +27,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import wedding.karpov.invitation.fragments.HowFragment;
 import wedding.karpov.invitation.fragments.QuestionCategoryFragment;
 import wedding.karpov.invitation.fragments.QuestionContainerFragment;
 import wedding.karpov.invitation.fragments.WhereFragment;
@@ -59,7 +60,7 @@ public class Main extends ActionBarActivity {
 
     private boolean mIsMovedDown = true;
 
-    private static final int TABS_OFFSET_DP = 100;
+    private static final int TABS_OFFSET_DP = 140;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -247,14 +248,6 @@ public class Main extends ActionBarActivity {
         }
     }
 
-    private void placeSlidingPanel() {
-//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//        mSlidingTabLayout.setLayoutParams(layoutParams);
-//        mSlidingTabLayout.invalidate();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -265,35 +258,10 @@ public class Main extends ActionBarActivity {
                         if (!mIsAlreadyGlobalLayout) {
                             showLoginFragment();
                             mIsAlreadyGlobalLayout = true;
-                            placeSlidingPanel();
                         }
                     }
                 });
     }
-
-//    @Override
-//    public void onBackPressed() {
-//
-//        // We retrieve the fragment manager of the activity
-//        FragmentManager frgmtManager = getFragmentManager();
-//        FragmentManager childFragmentManager = null;
-//        // We retrieve the fragment container showed right now
-//        // The viewpager assigns tags to fragment automatically like this
-//        // mPager is our ViewPager instance
-//        int id = mViewPager.getId();
-//        int currentItem = mViewPager.getCurrentItem();
-//
-//        Fragment fragment = mViewPagerAdapter.getItem(currentItem);
-//        if (fragment instanceof QuestionContainerFragment) {
-//            childFragmentManager = fragment.getChildFragmentManager();
-//        }
-//
-//        if (childFragmentManager != null && childFragmentManager.getBackStackEntryCount() == 0) {
-//            super.onBackPressed();
-//        } else {
-//            childFragmentManager.popBackStack();
-//        }
-//    }
 
     class SamplePagerAdapter extends FragmentPagerAdapter {
 
@@ -314,8 +282,10 @@ public class Main extends ActionBarActivity {
                 case 1:
                     return "Где?";
                 case 2:
-                    return "Карта";
+                    return "Как?";
                 case 3:
+                    return "Карта";
+                case 4:
                     return "Вопрос";
             }
             return "";
@@ -334,8 +304,10 @@ public class Main extends ActionBarActivity {
                 case 1:
                     return new WhereFragment();
                 case 2:
-                    return new wedding.karpov.invitation.fragments.MapFragment();
+                    return new HowFragment();
                 case 3:
+                    return new wedding.karpov.invitation.fragments.MapFragment();
+                case 4:
                     mQuestionFragment = QuestionCategoryFragment.newInstance();
                     return mQuestionFragment;
             }
@@ -344,7 +316,7 @@ public class Main extends ActionBarActivity {
 
         @Override
         public int getCount() {
-            return 4;
+            return 5;
         }
 
     }

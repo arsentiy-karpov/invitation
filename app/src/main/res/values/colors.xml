@@ -5,4 +5,5 @@
     <color name="accent">#D91F2C</color>
     <color name="title_color">#000000</color>
     <color name="guest_name_color">#547EAD</color>
+    <color name="card_background">#FFE6AD</color>
 </resources>

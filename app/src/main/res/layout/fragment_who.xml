@@ -8,9 +8,6 @@
                   android:layout_height="match_parent"
                   android:orientation="vertical"
                   android:padding="12dp">
-        <!--<LinearLayout android:layout_width="match_parent"-->
-                      <!--android:layout_weight="1"-->
-                      <!--android:layout_height="match_parent">-->
             <android.support.v7.widget.CardView android:orientation="vertical"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
@@ -18,12 +15,8 @@
                                                 cardview:cardMaxElevation="1dp">
                 <RelativeLayout android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/back"
+                                android:background="@color/card_background"
                         >
-                    <LinearLayout android:layout_width="match_parent"
-                                  android:layout_height="match_parent"
-                                  android:background="#ffffff"
-                                  android:alpha="0.5"/>
                     <TextView
                             android:id="@+id/welcome_text"
                             android:padding="12dp"
@@ -31,9 +24,5 @@
                             android:layout_height="wrap_content"/>
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
-        <!--</LinearLayout>-->
-        <!--<LinearLayout android:layout_width="match_parent"-->
-                      <!--android:layout_weight="3"-->
-                      <!--android:layout_height="match_parent"/>-->
     </LinearLayout>
 </ScrollView>
