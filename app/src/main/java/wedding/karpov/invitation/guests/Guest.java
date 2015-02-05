@@ -10,7 +10,7 @@ public interface Guest {
     }
 
     public static enum GuestGender {
-        M,F
+        M,F,P
     }
 
     String getName();

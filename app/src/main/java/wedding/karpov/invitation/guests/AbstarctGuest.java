@@ -64,8 +64,9 @@ public abstract class AbstarctGuest implements Guest {
 
     private CharSequence getPrefix() {
         return GuestType.FRIEND == getType() ? (GuestGender.M == getGender() ? "Достопочтенный"
-                : "Достопочтенная")
-                : (GuestGender.M == getGender() ? "Дорогой" : "Дорогая");
+                : (GuestGender.P == getGender() ? "Достопочтенные" : "Достопочтенная"))
+                : (GuestGender.M == getGender() ? "Дорогой"
+                        : (GuestGender.P == getGender() ? "Дорогие" : "Дорогая"));
     }
 
     protected CharSequence getStylingWelcomeText() {
@@ -97,6 +98,7 @@ public abstract class AbstarctGuest implements Guest {
     }
 
     public static interface OnApproveListener {
+
         void onApprove();
     }
 

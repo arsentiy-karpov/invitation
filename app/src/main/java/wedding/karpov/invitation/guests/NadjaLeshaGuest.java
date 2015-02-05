@@ -23,6 +23,6 @@ public class NadjaLeshaGuest extends AbstarctGuest {
 
     @Override
     public GuestGender getGender() {
-        return GuestGender.M;
+        return GuestGender.P;
     }
 }
