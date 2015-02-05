@@ -1,5 +1,7 @@
 package wedding.karpov.invitation;
 
+import com.parse.ParseObject;
+
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.res.Resources;
@@ -22,14 +24,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.animation.AnticipateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import wedding.karpov.invitation.fragments.HowFragment;
 import wedding.karpov.invitation.fragments.QuestionCategoryFragment;
-import wedding.karpov.invitation.fragments.QuestionContainerFragment;
 import wedding.karpov.invitation.fragments.WhereFragment;
 import wedding.karpov.invitation.fragments.WhoFragment;
 import wedding.karpov.invitation.objects.CustomTypefaceSpan;
@@ -102,7 +101,7 @@ public class Main extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem item = menu.add(0, R.id.action_example, 1, getString(R.string.action_example)
+        MenuItem item = menu.add(0, R.id.action_exit, 1, getString(R.string.action_example)
         );//.setIcon(R.drawable.ic_cake_black_24dp);
         MenuItemCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return super.onCreateOptionsMenu(menu);
@@ -111,7 +110,14 @@ public class Main extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_example) {
+        if (id == R.id.action_exit) {
+            ParseObject guestAnswerObject = new ParseObject("LoginCounter");
+            if (((InvitationApplication)getApplication()).getGuest() != null) {
+                guestAnswerObject.put("name",
+                        ((InvitationApplication) getApplication()).getGuest().getName());
+                guestAnswerObject.put("login", "false");
+                guestAnswerObject.saveEventually();
+            }
             ((InvitationApplication) getApplication()).setGuest(null);
             showLoginFragment();
         }
@@ -119,7 +125,6 @@ public class Main extends ActionBarActivity {
             ((InvitationApplication) getApplication()).setGuest(null);
             showLoginFragment();
         }
-
         return super.onOptionsItemSelected(item);
     }
 

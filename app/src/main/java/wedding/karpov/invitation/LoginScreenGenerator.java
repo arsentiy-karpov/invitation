@@ -1,11 +1,18 @@
 package wedding.karpov.invitation;
 
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.SaveCallback;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import wedding.karpov.invitation.guests.Guest;
 import wedding.karpov.invitation.guests.helpers.GuestFactory;
@@ -27,6 +34,10 @@ public class LoginScreenGenerator implements OverlappingScreen.InformationScreen
                         .getGuestByCode(((EditText) v.findViewById(R.id.code)).getText().toString(),
                                 overlappingInformationScreen.getActivity());
                 if (guest != null) {
+                    ParseObject guestAnswerObject = new ParseObject("LoginCounter");
+                    guestAnswerObject.put("name", guest.getName());
+                    guestAnswerObject.put("login", "true");
+                    guestAnswerObject.saveEventually();
                     overlappingInformationScreen
                             .detach(new OverlappingScreen.OnAnimationListener() {
                                 @Override

@@ -31,15 +31,16 @@ public class OverlappingScreen extends Fragment {
 
     public static final OverlappingScreen newInstance(
             InformationScreenGenerator informationScreenGenerator) {
-        OverlappingScreen overlappingInformationScreen
-                = new OverlappingScreen();
+        OverlappingScreen overlappingInformationScreen = new OverlappingScreen();
         overlappingInformationScreen.setInformationScreenGenerator(informationScreenGenerator);
         overlappingInformationScreen.setRetainInstance(true);
         return overlappingInformationScreen;
     }
 
     public static interface OnAnimationListener {
+
         void onEnd();
+
         void onStart();
     }
 
@@ -121,35 +122,13 @@ public class OverlappingScreen extends Fragment {
     }
 
     public void detach(final OnAnimationListener listener) {
-//        AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
-//        alphaAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
-//        alphaAnimation.setDuration(2000);
-//        if (mAttachedView.getChildAt(0) != null) {
-//            mAttachedView.getChildAt(0).startAnimation(alphaAnimation);
-//        }
-//        alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
-//            @Override
-//            public void onAnimationStart(Animation animation) {
-//                listener.onStart();
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//                listener.onEnd();
-                if (mAttachedView != null) {
-                    ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE))
-                            .removeView(mAttachedView);
-                    mAttachedView = null;
-                }
-                getFragmentManager().beginTransaction().remove(OverlappingScreen.this)
-                        .commitAllowingStateLoss();
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {
-//
-//            }
-//        });
+        if (mAttachedView != null) {
+            ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE))
+                    .removeView(mAttachedView);
+            mAttachedView = null;
+        }
+        getFragmentManager().beginTransaction().remove(OverlappingScreen.this)
+                .commitAllowingStateLoss();
 
     }
 

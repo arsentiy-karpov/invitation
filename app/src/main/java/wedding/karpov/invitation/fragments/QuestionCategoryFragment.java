@@ -1,9 +1,15 @@
 package wedding.karpov.invitation.fragments;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
@@ -15,7 +21,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
 
@@ -30,13 +38,11 @@ import wedding.karpov.invitation.viewholders.QuestionViewHolder;
  */
 public class QuestionCategoryFragment extends Fragment {
 
-    private RecyclerView mRecyclerView;
-
-    private QuestionsAdapter mAdapter;
-
     private EditText mAnswer;
 
     private String mQuestion;
+
+    private List<String> mQuestionsList;
 
     public static QuestionCategoryFragment newInstance() {
         QuestionCategoryFragment fragment = new QuestionCategoryFragment();
@@ -48,46 +54,93 @@ public class QuestionCategoryFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_question, container, false);
         mAnswer = (EditText) v.findViewById(R.id.answer_field);
+        v.findViewById(R.id.refresh_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fetchQuestions();
+            }
+        });
+        mQuestionsList = new ArrayList<>();
         v.findViewById(R.id.accept_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParseObject guestAnswerObject = new ParseObject("Guests");
-                guestAnswerObject.put("name",
-                        ((InvitationApplication) getActivity().getApplication())
-                                .getGuest()
-                                .getName());
-                guestAnswerObject
-                        .put("answer",
-                                mAnswer.getText().toString());
-                guestAnswerObject.put("question",
-                        mQuestion);
-                guestAnswerObject
-                        .put("create",
-                                Calendar.getInstance(TimeZone.getDefault())
-                                        .getTime().toString());
-                guestAnswerObject.saveEventually(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Toast.makeText(getActivity(),
-                                "Отправлено!\n" + mQuestion + ":\n"
-                                        + mAnswer.getText().toString(), Toast.LENGTH_LONG).show();
-                        setNewQuestion();
-                    }
-                });
-
+                if (mQuestion != null && isOnline()) {
+                    ParseObject guestAnswerObject = new ParseObject("Guests");
+                    guestAnswerObject.put("name",
+                            ((InvitationApplication) getActivity().getApplication()).getGuest()
+                                    .getName());
+                    guestAnswerObject.put("answer", mAnswer.getText().toString());
+                    guestAnswerObject.put("question", mQuestion);
+                    guestAnswerObject.put("create",
+                            Calendar.getInstance(TimeZone.getDefault()).getTime().toString());
+                    guestAnswerObject.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            Toast.makeText(getActivity(),
+                                    "Отправлено!\n" + mQuestion + ":\n" + mAnswer.getText()
+                                            .toString(), Toast.LENGTH_LONG).show();
+                            setNewQuestion();
+                        }
+                    });
+                }
             }
         });
-//        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        initAdapter();
         return v;
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        addQuestion("1");
+        addQuestion("2");
         if (mAnswer.getText().length() < 1) {
-            setNewQuestion();
+            fetchQuestions();
+        }
+
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getActivity()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    private void addQuestion(String question) {
+        if (mQuestionsList == null) {
+            mQuestionsList = new ArrayList<>();
+        }
+        mQuestionsList.add(question);
+    }
+
+    private void fetchQuestions() {
+        if (isOnline()) {
+            if (mAnswer.getText().length() < 1) {
+                mAnswer.setHint("Обновление...");
+            }
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Questions");
+            query.whereNotEqualTo("objectId", "qwerty");
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> parseObjects, ParseException e) {
+                    if (parseObjects != null && parseObjects.size() > 0) {
+                        for (ParseObject object : parseObjects) {
+                            addQuestion(object.getString("question"));
+                            if (mAnswer.getText().length() < 1) {
+                                setNewQuestion();
+                            }
+                        }
+                    } else {
+                        if (mAnswer.getText().length() < 1) {
+                            setNewQuestion();
+                        }
+                    }
+                }
+            });
+        } else {
+            if (mAnswer.getText().length() < 1) {
+                mAnswer.setHint("Проверьте соединение с интернетом");
+            }
         }
     }
 
@@ -100,66 +153,11 @@ public class QuestionCategoryFragment extends Fragment {
 
     private String getQuestion() {
         Random random = new Random();
-        int q1 = random.nextInt(5);
-        switch (q1) {
-            case 0:
-                return "Вопрос о нас 1?";
-            case 1:
-                return "Вопрос о нас 2?";
-            case 2:
-                return "Вопрос о нас 3?";
-            case 3:
-                return "Вопрос о нас 4?";
-            case 4:
-                return "Вопрос о нас 5?";
+        int q1 = random.nextInt(mQuestionsList.size());
+        if (mQuestionsList != null && mQuestionsList.get(q1) != null) {
+            mQuestion = mQuestionsList.get(q1);
         }
-        return "";
+        return mQuestion;
     }
 
-//    private void initAdapter() {
-//        if (mAdapter == null) {
-//            Random random = new Random();
-//            int q1 = random.nextInt(5);
-//            int q2 = random.nextInt(5);
-//
-//            QuestionsAdapter questionsAdapter = new QuestionsAdapter(getActivity());
-//
-//            switch (q1) {
-//                case 0:
-//                    questionsAdapter.addItem(new Question().setQuestionString("Вопрос о нас 1?"));
-//                    break;
-//                case 1:
-//                    questionsAdapter.addItem(new Question().setQuestionString("Вопрос о нас 2?"));
-//                    break;
-//                case 2:
-//                    questionsAdapter.addItem(new Question().setQuestionString("Вопрос о нас 3?"));
-//                    break;
-//                case 3:
-//                    questionsAdapter.addItem(new Question().setQuestionString("Вопрос о нас 4?"));
-//                    break;
-//                case 4:
-//                    questionsAdapter.addItem(new Question().setQuestionString("Вопрос о нас 5?"));
-//                    break;
-//            }
-//
-////            switch (q2) {
-////                case 0:
-////                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 1?"));
-////                    break;
-////                case 1:
-////                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 2?"));
-////                    break;
-////                case 2:
-////                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 3?"));
-////                    break;
-////                case 3:
-////                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 4?"));
-////                    break;
-////                case 4:
-////                    questionsAdapter.addItem(new Question().setQuestionString("Евреи и тд 5?"));
-////                    break;
-////            }
-//            mRecyclerView.setAdapter(questionsAdapter);
-//        }
-//    }
 }
