@@ -7,7 +7,7 @@
     <string name="title_section3">Может...</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_example">Это не я!</string>
+    <string name="action_example">It's not me!</string>
     <string name="action_settings">Settings</string>
     <string name="login_help">Если Вы установили это приложение -- скорее всего с ним было получено
         и кодовое слово:
@@ -95,5 +95,5 @@
     </string>
     <string name="login_wrong_code">Увы и Ах!</string>
     <string name="login_screen">login</string>
-    <string name="login_btn">нырнуть</string>
+    <string name="login_btn">dive into</string>
 </resources>

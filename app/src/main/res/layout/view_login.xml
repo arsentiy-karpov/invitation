@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="92dp"
                 android:layout_marginRight="92dp"
-                android:text="нырнуть"
+                android:text="@string/login_btn"
                 style="@style/ButtonBorderless"/>
 
     </LinearLayout>
